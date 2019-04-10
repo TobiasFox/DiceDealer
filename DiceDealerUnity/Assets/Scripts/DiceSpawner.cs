@@ -1,26 +1,58 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class DiceSpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject dicePrefab;
     [SerializeField] Vector3 randomForcePower;
+    [SerializeField] private float autoSpawnWaitTime;
     private Transform spawnpoint;
     private ObjectPool objectPool;
+    [SerializeField] private AutoSpawnConfiguration[] autoSpawnPoints;
 
+    [Serializable]
+    private struct AutoSpawnConfiguration
+    {
+        public Transform spawnPoint;
+        public Vector3 forceMin;
+        public Vector3 forceMax;
+    }
 
-    // Start is called before the first frame update
     void Start()
     {
         spawnpoint = transform.GetChild(0);
         objectPool = FindObjectOfType<ObjectPool>();
+
+        StartCoroutine(AutoSpawn());
     }
 
-    // Update is called once per frame
+    private IEnumerator AutoSpawn()
+    {
+        while (true)
+        {
+            var autoSpawnPoint = autoSpawnPoints[Random.Range(0,autoSpawnPoints.Length)];
+            GameObject dice =
+                objectPool.GetOrInstantiateDice(PoolName.D6, autoSpawnPoint.spawnPoint.position, Quaternion.identity);
+            var rb = dice.GetComponent<Rigidbody>();
+            if (rb)
+            {
+                Vector3 forceVector = new Vector3(Random.Range(autoSpawnPoint.forceMin.x, autoSpawnPoint.forceMax.x),
+                    autoSpawnPoint.forceMin.y,
+                    Random.Range(autoSpawnPoint.forceMin.z, autoSpawnPoint.forceMax.z));
+                
+                rb.AddForce(forceVector, ForceMode.Impulse);
+                rb.AddRelativeTorque(forceVector, ForceMode.Impulse);
+            }
+
+            yield return new WaitForSeconds(autoSpawnWaitTime);
+        }
+    }
+
     void Update()
     {
-        if (Input.GetKey(KeyCode.Space) || (Input.touchCount>0 && Input.GetTouch(0).phase==TouchPhase.Ended))
+        if (Input.GetKey(KeyCode.Space) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended))
         {
             SpawnCube();
         }
@@ -34,6 +66,7 @@ public class DiceSpawner : MonoBehaviour
         {
             return;
         }
+
         rb.AddForce(
             new Vector3(Random.Range(-randomForcePower.x, randomForcePower.x), randomForcePower.y,
                 Random.Range(-randomForcePower.z, randomForcePower.z)), ForceMode.Impulse);
