@@ -9,10 +9,12 @@ public class DiceSpawner : MonoBehaviour
 {
     [SerializeField] Vector3 randomForcePower;
     [SerializeField] private float autoSpawnWaitTime;
+    [SerializeField] private AutoSpawnConfiguration[] autoSpawnPoints;
+    [SerializeField] private UIController uiController;
+    private bool isAutoSpawnActive;
     private Transform spawnpoint;
     private ObjectPool objectPool;
-    [SerializeField] private AutoSpawnConfiguration[] autoSpawnPoints;
-    private UIController uiController;
+    private Coroutine activeAutoSpawnCoroutine;
 
     [Serializable]
     private struct AutoSpawnConfiguration
@@ -22,17 +24,31 @@ public class DiceSpawner : MonoBehaviour
         public Vector3 forceMax;
     }
 
-    void Start()
+    private void Start()
     {
         spawnpoint = transform.GetChild(0);
         objectPool = FindObjectOfType<ObjectPool>();
         uiController = FindObjectOfType<UIController>();
+    }
 
-        StartCoroutine(AutoSpawn());
+    public void ActivateAutoSpawn()
+    {
+        activeAutoSpawnCoroutine = StartCoroutine(AutoSpawn());
+        isAutoSpawnActive = true;
+    }
+
+    public void DeactivateAutoSpawn()
+    {
+        StopCoroutine(activeAutoSpawnCoroutine);
+        uiController.DeactivateSpawnSlider();
+        isAutoSpawnActive = false;
     }
 
     private IEnumerator AutoSpawn()
     {
+        uiController.ActivateAutoSpawnSlider(autoSpawnWaitTime);
+        yield return new WaitForSeconds(autoSpawnWaitTime - uiController.GetCurrentSpawnTime());
+
         while (true)
         {
             var autoSpawnPoint = autoSpawnPoints[Random.Range(0, autoSpawnPoints.Length)];
@@ -49,12 +65,12 @@ public class DiceSpawner : MonoBehaviour
                 rb.AddRelativeTorque(forceVector, ForceMode.Impulse);
             }
 
-            uiController.StartAutoSpawnSlider(autoSpawnWaitTime);
+            uiController.ActivateAndResetAutoSpawnSlider(autoSpawnWaitTime);
             yield return new WaitForSeconds(autoSpawnWaitTime);
         }
     }
 
-    void Update()
+    private void Update()
     {
         if (Input.GetKey(KeyCode.Space) || IsTouched())
         {
@@ -69,7 +85,7 @@ public class DiceSpawner : MonoBehaviour
         {
             return false;
         }
-        
+
         var touch = Input.GetTouch(0);
         return (!EventSystem.current.currentSelectedGameObject &&
                 touch.phase == TouchPhase.Ended);

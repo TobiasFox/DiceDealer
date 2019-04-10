@@ -36,7 +36,6 @@ public class AutoSpawnSlider : MonoBehaviour
     public void SetSpawnTime(float spawnTime)
     {
         this.spawnTime = spawnTime;
-        autoSpawnSlider.value = 0;
         autoSpawnSlider.maxValue = spawnTime;
     }
 
@@ -48,5 +47,16 @@ public class AutoSpawnSlider : MonoBehaviour
     public void DeactivateAutoSpawnSlider()
     {
         isActiveAutoSpawn = false;
+    }
+
+    public float GetCurrentSpawnTime()
+    {
+        return autoSpawnSlider.value;
+    }
+
+    public void ActivateAndResetAutoSpawnSlider()
+    {
+        ActivateAutoSpawnSlider();
+        autoSpawnSlider.value = 0;
     }
 }
