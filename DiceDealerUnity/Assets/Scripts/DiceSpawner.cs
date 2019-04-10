@@ -7,11 +7,14 @@ public class DiceSpawner : MonoBehaviour
     [SerializeField] private GameObject dicePrefab;
     [SerializeField] Vector3 randomForcePower;
     private Transform spawnpoint;
+    private ObjectPool objectPool;
+        
 
     // Start is called before the first frame update
     void Start()
     {
         spawnpoint = transform.GetChild(0);
+        objectPool = FindObjectOfType<ObjectPool>();
     }
 
     // Update is called once per frame
@@ -19,10 +22,11 @@ public class DiceSpawner : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space))
         {
-            GameObject dice = Instantiate(dicePrefab, spawnpoint.position, Quaternion.identity);
-            dice.GetComponent<Rigidbody>().AddForce(
+            GameObject dice = objectPool.GetOrInstantiateDice(PoolName.D6, spawnpoint.position, Quaternion.identity);
+            var rb = dice.GetComponent<Rigidbody>();
+            rb.AddForce(
                 new Vector3(Random.Range(-randomForcePower.x, randomForcePower.x), randomForcePower.y, Random.Range(-randomForcePower.z, randomForcePower.z)), ForceMode.Impulse);
-            dice.GetComponent<Rigidbody>().AddRelativeTorque(new Vector3(Random.Range(-randomForcePower.x, randomForcePower.x), randomForcePower.y, Random.Range(-randomForcePower.z, randomForcePower.z)), ForceMode.Impulse);
+           rb.AddRelativeTorque(new Vector3(Random.Range(-randomForcePower.x, randomForcePower.x), randomForcePower.y, Random.Range(-randomForcePower.z, randomForcePower.z)), ForceMode.Impulse);
         }
     }
 }
