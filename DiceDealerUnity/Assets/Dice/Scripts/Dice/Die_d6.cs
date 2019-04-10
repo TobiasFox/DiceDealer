@@ -19,7 +19,12 @@ using System.Collections;
 
 // Die subclass to expose the D6 side hitVectors
 public class Die_d6 : Die {
-		
+
+    private void Start()
+    {
+        poolName = PoolName.D6; //Redundant as long there is only one poolName 
+    }
+
     override protected Vector3 HitVector(int side)
     {
         switch (side)

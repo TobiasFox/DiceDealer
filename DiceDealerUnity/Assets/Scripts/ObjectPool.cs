@@ -55,6 +55,9 @@ public class ObjectPool : MonoBehaviour
             dice.transform.position = position;
             dice.transform.rotation = rotation;
             dice.SetActive(true);
+
+            dice.GetComponent<DiceRepooler>().isInPool = false;
+
             return dice;
         }
 

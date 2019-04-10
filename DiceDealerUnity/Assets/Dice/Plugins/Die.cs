@@ -37,8 +37,24 @@ public class Die : MonoBehaviour {
     protected Vector3 localHitNormalized;
 	// hitVector check margin
     protected float validMargin = 0.45F;
+    //objectPool category
+    protected PoolName poolName = PoolName.D6;
 
-	// true is die is still rolling
+    private GameScore gameScore;
+    private DiceRepooler diceRepooler;
+    private bool hitGround;
+
+    private void Awake()
+    {
+        gameScore = FindObjectOfType<GameScore>();
+        if(gameScore == null)
+        {
+            Debug.Log("No game scroe script found");
+        }
+        diceRepooler = GetComponent<DiceRepooler>();
+    }
+
+    // true is die is still rolling
     public bool rolling
     {
         get
@@ -109,12 +125,25 @@ public class Die : MonoBehaviour {
     void Update()
     {
 		// determine the value is the die is not rolling
-        if (!rolling && localHit)
+        if (hitGround && !rolling && localHit && !diceRepooler.isInPool)
+        {
             GetValue();
+            gameScore.AddScore(value);
+            diceRepooler.RepoolGameobject();
+            hitGround = false;
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Ground"))
+        {
+            hitGround = true;
+        }
     }
 
 
-	// validate a test value against a value within a specific margin.
+    // validate a test value against a value within a specific margin.
     protected bool valid(float t, float v)
     {
         if (t > (v - validMargin) && t < (v + validMargin))

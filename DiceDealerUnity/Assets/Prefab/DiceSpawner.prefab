@@ -201,15 +201,15 @@ MonoBehaviour:
   randomForcePower: {x: 15, y: -15, z: 15}
   autoSpawnWaitTime: 0.5
   autoSpawnPoints:
-  - spawnPoint: {fileID: 0}
+  - spawnPoint: {fileID: 346151612}
     forceMin: {x: 6, y: 0, z: 6}
     forceMax: {x: 17.5, y: 15, z: 17.5}
-  - spawnPoint: {fileID: 0}
+  - spawnPoint: {fileID: 820133957}
     forceMin: {x: -6, y: 0, z: 6}
     forceMax: {x: -17.5, y: 15, z: 17.5}
-  - spawnPoint: {fileID: 0}
+  - spawnPoint: {fileID: 1809971334}
     forceMin: {x: 6, y: 0, z: -6}
     forceMax: {x: 17.5, y: 15, z: -17.5}
-  - spawnPoint: {fileID: 0}
+  - spawnPoint: {fileID: 136626126}
     forceMin: {x: -6, y: 0, z: -6}
     forceMax: {x: -17.5, y: 15, z: -17.5}

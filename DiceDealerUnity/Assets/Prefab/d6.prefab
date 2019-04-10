@@ -14,13 +14,14 @@ GameObject:
   - component: {fileID: 2997647746801335353}
   - component: {fileID: 334997348}
   - component: {fileID: 334997347}
+  - component: {fileID: 334997349}
   m_Layer: 0
   m_Name: d6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4930064828252059625
 Transform:
   m_ObjectHideFlags: 0
@@ -116,9 +117,22 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4930064828252023753}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: ebbf393b19c307d4e896d9ce6f61c4fe, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 2, y: 2.0000014, z: 2.0000005}
   m_Center: {x: 0, y: -0.0000004768373, z: 0}
+--- !u!114 &334997349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4930064828252023753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00e0e71202ad6c84ea236ec8d6039a0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  repoolWaitTime: 2

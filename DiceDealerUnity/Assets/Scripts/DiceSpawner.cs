@@ -10,6 +10,7 @@ public class DiceSpawner : MonoBehaviour
     [SerializeField] private float autoSpawnWaitTime;
     private Transform spawnpoint;
     private ObjectPool objectPool;
+    [SerializeField] bool toggleAutospawn = false;
     [SerializeField] private AutoSpawnConfiguration[] autoSpawnPoints;
 
     [Serializable]
@@ -25,7 +26,10 @@ public class DiceSpawner : MonoBehaviour
         spawnpoint = transform.GetChild(0);
         objectPool = FindObjectOfType<ObjectPool>();
 
-        StartCoroutine(AutoSpawn());
+        if(toggleAutospawn)
+        {
+            StartCoroutine(AutoSpawn());
+        }
     }
 
     private IEnumerator AutoSpawn()
@@ -62,7 +66,7 @@ public class DiceSpawner : MonoBehaviour
     {
         GameObject dice = objectPool.GetOrInstantiateDice(PoolName.D6, spawnpoint.position, Quaternion.identity);
         var rb = dice.GetComponent<Rigidbody>();
-        if (!rb)
+        if (rb == null)
         {
             return;
         }
