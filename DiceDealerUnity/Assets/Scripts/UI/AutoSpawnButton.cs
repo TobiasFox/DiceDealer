@@ -11,7 +11,7 @@ public class AutoSpawnButton : MonoBehaviour
     private bool isAutoSpawnActivated;
     private DiceSpawner diceSpawner;
 
-    void Awake()
+    void Start()
     {
         diceSpawner = FindObjectOfType<DiceSpawner>();
         autoSpawnButtonImage = GetComponent<Image>();
