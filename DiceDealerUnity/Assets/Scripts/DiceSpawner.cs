@@ -11,10 +11,8 @@ public class DiceSpawner : MonoBehaviour
     [SerializeField] private float autoSpawnWaitTime;
     [SerializeField] private AutoSpawnConfiguration[] autoSpawnPoints;
     [SerializeField] private UIController uiController;
-    private bool isAutoSpawnActive;
     private Transform spawnpoint;
     private ObjectPool objectPool;
-    [SerializeField] bool toggleAutospawn = false;
     private Coroutine activeAutoSpawnCoroutine;
 
     [Serializable]
@@ -35,14 +33,12 @@ public class DiceSpawner : MonoBehaviour
     public void ActivateAutoSpawn()
     {
         activeAutoSpawnCoroutine = StartCoroutine(AutoSpawn());
-        isAutoSpawnActive = true;
     }
 
     public void DeactivateAutoSpawn()
     {
         StopCoroutine(activeAutoSpawnCoroutine);
         uiController.DeactivateSpawnSlider();
-        isAutoSpawnActive = false;
     }
 
     private IEnumerator AutoSpawn()
