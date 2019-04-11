@@ -45,15 +45,9 @@ public class DiceSpawner : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.Space) || IsTouched())
-        {
-            SpawnCube(spawnpoint.position, -randomForcePower, randomForcePower);
-        }
-
         if (isAutoSpawn)
         {
             currentAutoSpawnValue = Mathf.MoveTowards(currentAutoSpawnValue, autoSpawnWaitTime, Time.deltaTime);
-            Debug.Log(currentAutoSpawnValue);
 
             if (currentAutoSpawnValue >= autoSpawnWaitTime)
             {
@@ -64,6 +58,11 @@ public class DiceSpawner : MonoBehaviour
             }
 
             uiController.SetAutoSpawnSliderValue(autoSpawnWaitTime - currentAutoSpawnValue);
+        }
+
+        if (Input.GetKey(KeyCode.Space) || IsTouched())
+        {
+            SpawnCube(spawnpoint.position, -randomForcePower, randomForcePower);
         }
     }
 

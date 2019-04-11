@@ -9,6 +9,7 @@ public class DiceRepooler : MonoBehaviour
     [SerializeField] private float repoolWaitTime = 1;
 
     private ObjectPool objectPool;
+    private Coroutine repoolCoroutine;
 
 
     private void Start()
@@ -20,15 +21,28 @@ public class DiceRepooler : MonoBehaviour
     {
         if (!isInPool)
         {
-            isInPool = true;
-            StartCoroutine(ReepolObjectAfterTime());
-            //objectPool.EnqueueGameObject(PoolName.D6, gameObject);
+            repoolCoroutine = StartCoroutine(ReepolObjectAfterTime());
         }
     }
 
     private IEnumerator ReepolObjectAfterTime()
     {
         yield return new WaitForSeconds(repoolWaitTime);
+        isInPool = true;
         objectPool.EnqueueGameObject(PoolName.D6, gameObject);
+    }
+
+    public void ResetDice()
+    {
+        if (repoolCoroutine != null)
+        {
+            StopCoroutine(repoolCoroutine);
+        }
+
+        if (!isInPool)
+        {
+            isInPool = true;
+            objectPool.EnqueueGameObject(PoolName.D6, gameObject);
+        }
     }
 }
