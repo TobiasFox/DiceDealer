@@ -6,57 +6,22 @@ using UnityEngine.UI;
 public class AutoSpawnSlider : MonoBehaviour
 {
     private Slider autoSpawnSlider;
-    private bool isActiveAutoSpawn;
-    private float spawnTime;
     [SerializeField] private Text timeTextField;
-    [SerializeField] private float speedTime;
 
     void Awake()
     {
         autoSpawnSlider = GetComponent<Slider>();
-        isActiveAutoSpawn = true;
     }
 
-    void Update()
+    public void SetSliderValue(float sliderValue)
     {
-        if (!isActiveAutoSpawn)
-        {
-            return;
-        }
-
-        autoSpawnSlider.value = Mathf.MoveTowards(autoSpawnSlider.value, spawnTime, Time.deltaTime * speedTime);
-        timeTextField.text = (spawnTime - autoSpawnSlider.value).ToString("F1");
-
-        if (autoSpawnSlider.value >= autoSpawnSlider.maxValue)
-        {
-            isActiveAutoSpawn = false;
-        }
+        autoSpawnSlider.value = sliderValue;
+        timeTextField.text = (autoSpawnSlider.value).ToString("F1");
     }
 
-    public void SetSpawnTime(float spawnTime)
+    public void SetSliderMinMax(float min, float max)
     {
-        this.spawnTime = spawnTime;
-        autoSpawnSlider.maxValue = spawnTime;
-    }
-
-    public void ActivateAutoSpawnSlider()
-    {
-        isActiveAutoSpawn = true;
-    }
-
-    public void DeactivateAutoSpawnSlider()
-    {
-        isActiveAutoSpawn = false;
-    }
-
-    public float GetCurrentSpawnTime()
-    {
-        return autoSpawnSlider.value;
-    }
-
-    public void ActivateAndResetAutoSpawnSlider()
-    {
-        ActivateAutoSpawnSlider();
-        autoSpawnSlider.value = 0;
+        autoSpawnSlider.minValue = min;
+        autoSpawnSlider.maxValue = max;
     }
 }

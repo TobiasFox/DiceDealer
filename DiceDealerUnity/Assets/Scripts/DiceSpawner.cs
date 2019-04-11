@@ -10,10 +10,12 @@ public class DiceSpawner : MonoBehaviour
     [SerializeField] Vector3 randomForcePower;
     [SerializeField] private float autoSpawnWaitTime;
     [SerializeField] private AutoSpawnConfiguration[] autoSpawnPoints;
-    [SerializeField] private UIController uiController;
+    private UIController uiController;
     private Transform spawnpoint;
     private ObjectPool objectPool;
-    private Coroutine activeAutoSpawnCoroutine;
+    private bool isAutoSpawn;
+    private float currentAutoSpawnValue;
+
 
     [Serializable]
     private struct AutoSpawnConfiguration
@@ -32,46 +34,36 @@ public class DiceSpawner : MonoBehaviour
 
     public void ActivateAutoSpawn()
     {
-        activeAutoSpawnCoroutine = StartCoroutine(AutoSpawn());
+        uiController.SetAutoSpawnSliderMinMax(0, autoSpawnWaitTime);
+        isAutoSpawn = true;
     }
 
     public void DeactivateAutoSpawn()
     {
-        StopCoroutine(activeAutoSpawnCoroutine);
-        uiController.DeactivateSpawnSlider();
-    }
-
-    private IEnumerator AutoSpawn()
-    {
-        uiController.ActivateAutoSpawnSlider(autoSpawnWaitTime);
-        yield return new WaitForSeconds(autoSpawnWaitTime - uiController.GetCurrentSpawnTime());
-
-        while (true)
-        {
-            var autoSpawnPoint = autoSpawnPoints[Random.Range(0, autoSpawnPoints.Length)];
-            GameObject dice =
-                objectPool.GetOrInstantiateDice(PoolName.D6, autoSpawnPoint.spawnPoint.position, Quaternion.identity);
-            var rb = dice.GetComponent<Rigidbody>();
-            if (rb)
-            {
-                Vector3 forceVector = new Vector3(Random.Range(autoSpawnPoint.forceMin.x, autoSpawnPoint.forceMax.x),
-                    autoSpawnPoint.forceMin.y,
-                    Random.Range(autoSpawnPoint.forceMin.z, autoSpawnPoint.forceMax.z));
-
-                rb.AddForce(forceVector, ForceMode.Impulse);
-                rb.AddRelativeTorque(forceVector, ForceMode.Impulse);
-            }
-
-            uiController.ActivateAndResetAutoSpawnSlider(autoSpawnWaitTime);
-            yield return new WaitForSeconds(autoSpawnWaitTime);
-        }
+        isAutoSpawn = false;
     }
 
     private void Update()
     {
         if (Input.GetKey(KeyCode.Space) || IsTouched())
         {
-            SpawnCube();
+            SpawnCube(spawnpoint.position, -randomForcePower, randomForcePower);
+        }
+
+        if (isAutoSpawn)
+        {
+            currentAutoSpawnValue = Mathf.MoveTowards(currentAutoSpawnValue, autoSpawnWaitTime, Time.deltaTime);
+            Debug.Log(currentAutoSpawnValue);
+
+            if (currentAutoSpawnValue >= autoSpawnWaitTime)
+            {
+                var autoSpawnPoint = autoSpawnPoints[Random.Range(0, autoSpawnPoints.Length)];
+                SpawnCube(autoSpawnPoint.spawnPoint.position, autoSpawnPoint.forceMin, autoSpawnPoint.forceMax);
+                currentAutoSpawnValue = 0;
+                uiController.SetAutoSpawnSliderMinMax(0, autoSpawnWaitTime);
+            }
+
+            uiController.SetAutoSpawnSliderValue(autoSpawnWaitTime - currentAutoSpawnValue);
         }
     }
 
@@ -88,20 +80,18 @@ public class DiceSpawner : MonoBehaviour
                 touch.phase == TouchPhase.Ended);
     }
 
-    public void SpawnCube()
+    public void SpawnCube(Vector3 position, Vector3 forceMin, Vector3 forceMax)
     {
-        GameObject dice = objectPool.GetOrInstantiateDice(PoolName.D6, spawnpoint.position, Quaternion.identity);
+        GameObject dice = objectPool.GetOrInstantiateDice(PoolName.D6, position, Quaternion.identity);
         var rb = dice.GetComponent<Rigidbody>();
-        if (rb == null)
+        if (!rb)
         {
             return;
         }
 
-        rb.AddForce(
-            new Vector3(Random.Range(-randomForcePower.x, randomForcePower.x), randomForcePower.y,
-                Random.Range(-randomForcePower.z, randomForcePower.z)), ForceMode.Impulse);
-        rb.AddRelativeTorque(
-            new Vector3(Random.Range(-randomForcePower.x, randomForcePower.x), randomForcePower.y,
-                Random.Range(-randomForcePower.z, randomForcePower.z)), ForceMode.Impulse);
+        Vector3 forceVector = new Vector3(Random.Range(forceMin.x, forceMax.x), forceMax.y,
+            Random.Range(forceMin.z, forceMax.z));
+        rb.AddForce(forceVector, ForceMode.Impulse);
+        rb.AddRelativeTorque(forceVector, ForceMode.Impulse);
     }
 }

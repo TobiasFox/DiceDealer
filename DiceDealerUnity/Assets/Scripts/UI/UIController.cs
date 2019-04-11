@@ -21,31 +21,19 @@ public class UIController : MonoBehaviour
         Destroy(gameObject);
     }
 
-
     public void UpdateScore(int score)
     {
         scoreText.text = score.ToString();
     }
 
-    public void ActivateAutoSpawnSlider(float spawnTime)
+    public void SetAutoSpawnSliderValue(float sliderValue)
     {
-        autoSpawnSlider.SetSpawnTime(spawnTime);
-        autoSpawnSlider.ActivateAutoSpawnSlider();
+        autoSpawnSlider.SetSliderValue(sliderValue);
     }
     
-    public void ActivateAndResetAutoSpawnSlider(float spawnTime)
+    public void SetAutoSpawnSliderMinMax(float min, float max)
     {
-        autoSpawnSlider.SetSpawnTime(spawnTime);
-        autoSpawnSlider.ActivateAndResetAutoSpawnSlider();
+        autoSpawnSlider.SetSliderMinMax(min, max);
     }
-
-    public void DeactivateSpawnSlider()
-    {
-        autoSpawnSlider.DeactivateAutoSpawnSlider();
-    }
-
-    public float GetCurrentSpawnTime()
-    {
-        return autoSpawnSlider.GetCurrentSpawnTime();
-    }
+    
 }
