@@ -7,8 +7,8 @@ using Random = UnityEngine.Random;
 
 public class DiceSpawner : MonoBehaviour
 {
+    public float autoSpawnWaitTime { get; set; }
     [SerializeField] Vector3 randomForcePower;
-    [SerializeField] private float autoSpawnWaitTime;
     [SerializeField] private AutoSpawnConfiguration[] autoSpawnPoints;
     private UIController uiController;
     private Transform spawnpoint;
@@ -27,6 +27,7 @@ public class DiceSpawner : MonoBehaviour
 
     private void Start()
     {
+        autoSpawnWaitTime = 3f;
         spawnpoint = transform.GetChild(0);
         objectPool = FindObjectOfType<ObjectPool>();
         uiController = FindObjectOfType<UIController>();
@@ -47,6 +48,17 @@ public class DiceSpawner : MonoBehaviour
     {
         if (isAutoSpawn)
         {
+            AutoSpawnCube();
+        }
+
+        if (Input.GetKey(KeyCode.Space) || IsTouched())
+        {
+            SpawnCube(spawnpoint.position, -randomForcePower, randomForcePower);
+        }
+    }
+
+    private void AutoSpawnCube()
+    {
             currentAutoSpawnValue = Mathf.MoveTowards(currentAutoSpawnValue, autoSpawnWaitTime, Time.deltaTime);
 
             if (currentAutoSpawnValue >= autoSpawnWaitTime)
@@ -58,12 +70,6 @@ public class DiceSpawner : MonoBehaviour
             }
 
             uiController.SetAutoSpawnSliderValue(autoSpawnWaitTime - currentAutoSpawnValue);
-        }
-
-        if (Input.GetKey(KeyCode.Space) || IsTouched())
-        {
-            SpawnCube(spawnpoint.position, -randomForcePower, randomForcePower);
-        }
     }
 
     private bool IsTouched()

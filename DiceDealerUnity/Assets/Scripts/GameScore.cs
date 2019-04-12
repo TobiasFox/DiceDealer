@@ -6,12 +6,14 @@ public class GameScore : MonoBehaviour
 {
     private static GameObject INSTANCE;
 
-    [Tooltip("The maximum of eyes a dice can have to instantiate the eyes count array")] [SerializeField]
+    [Tooltip("The maximum of eyes a dice can have to instantiate the eyes count array")]
+    [SerializeField]
     private int maxDiceEyes = 6;
 
     private int gameScore = 0;
     private int[] diceEyeCount;
     private UIController uiController;
+    private DiceSpawner diceSpawner;
 
     private void Awake()
     {
@@ -29,6 +31,7 @@ public class GameScore : MonoBehaviour
     {
         diceEyeCount = new int[maxDiceEyes];
         uiController = FindObjectOfType<UIController>();
+        diceSpawner = FindObjectOfType<DiceSpawner>();
     }
 
     public void AddScore(int diceEyes)
@@ -54,6 +57,16 @@ public class GameScore : MonoBehaviour
             {
                 activeDice.ResetDice();
             }
+        }
+    }
+
+    public void BuyUpgrade(Upgrade upgrade)
+    {
+        if (gameScore >= upgrade.price)
+        {
+            gameScore -= upgrade.price;
+            diceSpawner.autoSpawnWaitTime *= upgrade.upgradeMultiplier;
+            upgrade.CalculateNextUpgradePrice();
         }
     }
 }
