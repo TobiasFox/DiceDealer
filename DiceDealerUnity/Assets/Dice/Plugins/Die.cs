@@ -49,7 +49,7 @@ public class Die : MonoBehaviour {
         gameScore = FindObjectOfType<GameScore>();
         if(gameScore == null)
         {
-            Debug.Log("No game scroe script found");
+            Debug.Log("No GameScore script found");
         }
         diceRepooler = GetComponent<DiceRepooler>();
     }
