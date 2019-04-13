@@ -96,7 +96,7 @@ public class GameScore : MonoBehaviour
         if (gameScore >= upgrade.price)
         {
             gameScore -= upgrade.price;
-            diceSpawner.autoSpawnWaitTime *= upgrade.upgradeMultiplier;
+            diceSpawner.AutoSpawnWaitTime *= upgrade.upgradeMultiplier;
             upgrade.CalculateNextUpgradePrice();
         }
     }

@@ -1,21 +1,28 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Schema;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Random = UnityEngine.Random;
 
 public class DiceSpawner : MonoBehaviour
 {
-    public float autoSpawnWaitTime { get; set; }
+    [SerializeField] private float autoSpawnWaitTime;
+
+    public float AutoSpawnWaitTime
+    {
+        get => autoSpawnWaitTime;
+        set => autoSpawnWaitTime = value;
+    }
+
     [SerializeField] Vector3 randomForcePower;
     [SerializeField] private AutoSpawnConfiguration[] autoSpawnPoints;
+    [SerializeField] private PoolName autoSpawnDiceType = PoolName.D6;
     private UIController uiController;
     private Transform spawnpoint;
-    private ObjectPool objectPool;
-    private bool isAutoSpawn;
+    private bool isAutoSpawn = true;
     private float currentAutoSpawnValue;
-
 
     [Serializable]
     private struct AutoSpawnConfiguration
@@ -27,9 +34,7 @@ public class DiceSpawner : MonoBehaviour
 
     private void Start()
     {
-        autoSpawnWaitTime = 3f;
         spawnpoint = transform.GetChild(0);
-        objectPool = FindObjectOfType<ObjectPool>();
         uiController = FindObjectOfType<UIController>();
     }
 
@@ -53,23 +58,24 @@ public class DiceSpawner : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Space) || IsTouched())
         {
-            SpawnCube(spawnpoint.position, -randomForcePower, randomForcePower);
+            SpawnCube();
         }
     }
 
     private void AutoSpawnCube()
     {
-            currentAutoSpawnValue = Mathf.MoveTowards(currentAutoSpawnValue, autoSpawnWaitTime, Time.deltaTime);
+        currentAutoSpawnValue = Mathf.MoveTowards(currentAutoSpawnValue, autoSpawnWaitTime, Time.deltaTime);
 
-            if (currentAutoSpawnValue >= autoSpawnWaitTime)
-            {
-                var autoSpawnPoint = autoSpawnPoints[Random.Range(0, autoSpawnPoints.Length)];
-                SpawnCube(autoSpawnPoint.spawnPoint.position, autoSpawnPoint.forceMin, autoSpawnPoint.forceMax);
-                currentAutoSpawnValue = 0;
-                uiController.SetAutoSpawnSliderMinMax(0, autoSpawnWaitTime);
-            }
+        if (currentAutoSpawnValue >= autoSpawnWaitTime)
+        {
+            var autoSpawnPoint = autoSpawnPoints[Random.Range(0, autoSpawnPoints.Length)];
+            SpawnCube(autoSpawnPoint.spawnPoint.position, autoSpawnPoint.forceMin, autoSpawnPoint.forceMax);
+            
+            currentAutoSpawnValue = 0;
+            uiController.SetAutoSpawnSliderMinMax(0, autoSpawnWaitTime);
+        }
 
-            uiController.SetAutoSpawnSliderValue(autoSpawnWaitTime - currentAutoSpawnValue);
+        uiController.SetAutoSpawnSliderValue(autoSpawnWaitTime - currentAutoSpawnValue);
     }
 
     private bool IsTouched()
@@ -87,21 +93,43 @@ public class DiceSpawner : MonoBehaviour
 
     private void SpawnCube(Vector3 position, Vector3 forceMin, Vector3 forceMax)
     {
-        GameObject dice = objectPool.GetOrInstantiateDice(PoolName.D6, position, Quaternion.identity);
-        var rb = dice.GetComponent<Rigidbody>();
-        if (!rb)
-        {
-            return;
-        }
-
-        Vector3 forceVector = new Vector3(Random.Range(forceMin.x, forceMax.x), forceMax.y,
+        var forceVector = new Vector3(Random.Range(forceMin.x, forceMax.x), 0,
             Random.Range(forceMin.z, forceMax.z));
-        rb.AddForce(forceVector, ForceMode.Impulse);
-        rb.AddRelativeTorque(forceVector, ForceMode.Impulse);
-    }
 
+        Dice.Roll(autoSpawnDiceType, autoSpawnDiceType + "-" + RandomColor(), position, forceVector);
+    }
+    
     public void SpawnCube()
     {
         SpawnCube(spawnpoint.position, -randomForcePower, randomForcePower);
+    }
+
+    private string RandomColor()
+    {
+        var color = "blue";
+        var c = System.Convert.ToInt32(Random.value * 6);
+        switch (c)
+        {
+            case 0:
+                color = "red";
+                break;
+            case 1:
+                color = "green";
+                break;
+            case 2:
+                color = "blue";
+                break;
+            case 3:
+                color = "yellow";
+                break;
+            case 4:
+                color = "white";
+                break;
+            case 5:
+                color = "black";
+                break;
+        }
+
+        return color;
     }
 }

@@ -10,11 +10,17 @@ public class DiceRepooler : MonoBehaviour
 
     private ObjectPool objectPool;
     private Coroutine repoolCoroutine;
-
+    private float timeIntervall;
+    private float spinTime = 5;
+    private Rigidbody rb;
+    public Vector3 spin { get; set; }
+    public Vector3 moveVector { get; set; }
 
     private void Start()
     {
         objectPool = FindObjectOfType<ObjectPool>();
+        rb = GetComponent<Rigidbody>();
+        timeIntervall = Time.time + spinTime;
     }
 
     public void RepoolGameobject()
@@ -30,19 +36,5 @@ public class DiceRepooler : MonoBehaviour
         yield return new WaitForSeconds(repoolWaitTime);
         isInPool = true;
         objectPool.EnqueueGameObject(PoolName.D6, gameObject);
-    }
-
-    public void ResetDice()
-    {
-        if (repoolCoroutine != null)
-        {
-            StopCoroutine(repoolCoroutine);
-        }
-
-        if (!isInPool)
-        {
-            isInPool = true;
-            objectPool.EnqueueGameObject(PoolName.D6, gameObject);
-        }
     }
 }

@@ -13,12 +13,17 @@
  * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */ 
+ */
+
 using UnityEngine;
 using System.Collections;
 
 // Die subclass to expose the D6 side hitVectors
-public class Die_d6 : Die {
+public class Die_d6 : Die
+{
+    public Vector3 spawnPoint { get; set; }
+    public Vector3 force { get; set; }
+    public string mat { get; set; }
 
     private void Start()
     {
@@ -36,7 +41,7 @@ public class Die_d6 : Die {
             case 5: return new Vector3(0F, 1F, 0F);
             case 6: return new Vector3(0F, 0F, -1F);
         }
+
         return Vector3.zero;
     }
-		
 }
