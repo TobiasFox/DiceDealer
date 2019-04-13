@@ -1,15 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.PlayerLoop;
+using UnityEngine.SceneManagement;
 
 public class GameScore : MonoBehaviour
 {
     private static GameObject INSTANCE;
 
-    [Tooltip("The maximum of eyes a dice can have to instantiate the eyes count array")]
-    [SerializeField]
+    [Tooltip("The maximum of eyes a dice can have to instantiate the eyes count array")] [SerializeField]
     private int maxDiceEyes = 6;
 
+    [SerializeField] private Upgrade upgrade;
+
+    public Upgrade Upgrade
+    {
+        get => upgrade;
+        set => upgrade = value;
+    }
+
+    private Upgrade originUpgrade;
     private int gameScore = 0;
     private int[] diceEyeCount;
     private UIController uiController;
@@ -21,6 +31,8 @@ public class GameScore : MonoBehaviour
         {
             INSTANCE = gameObject;
             DontDestroyOnLoad(gameObject);
+            originUpgrade = Instantiate(upgrade) as Upgrade;
+            SceneManager.sceneLoaded += OnSceneLoaded;
             return;
         }
 
@@ -29,9 +41,22 @@ public class GameScore : MonoBehaviour
 
     private void Start()
     {
+        Init();
+    }
+
+    private void Init()
+    {
         diceEyeCount = new int[maxDiceEyes];
         uiController = FindObjectOfType<UIController>();
         diceSpawner = FindObjectOfType<DiceSpawner>();
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode sceneMode)
+    {
+        if (scene.buildIndex == 0)
+        {
+            Init();
+        }
     }
 
     public void AddScore(int diceEyes)
@@ -48,19 +73,25 @@ public class GameScore : MonoBehaviour
     public void ResetScore()
     {
         gameScore = 0;
+        upgrade = originUpgrade;
+
+        SceneManager.LoadScene(0);
+
         uiController.UpdateScore(gameScore);
 
-        var activeDices = FindObjectsOfType<DiceRepooler>();
-        if (activeDices != null)
-        {
-            foreach (var activeDice in activeDices)
-            {
-                activeDice.ResetDice();
-            }
-        }
+//        uiController.ResetAutoSpawner();
+//
+//        var activeDices = FindObjectsOfType<DiceRepooler>();
+//        if (activeDices != null)
+//        {
+//            foreach (var activeDice in activeDices)
+//            {
+//                activeDice.ResetDice();
+//            }
+//        }
     }
 
-    public void BuyUpgrade(Upgrade upgrade)
+    public void BuyUpgrade()
     {
         if (gameScore >= upgrade.price)
         {
@@ -68,5 +99,10 @@ public class GameScore : MonoBehaviour
             diceSpawner.autoSpawnWaitTime *= upgrade.upgradeMultiplier;
             upgrade.CalculateNextUpgradePrice();
         }
+    }
+
+    private void OnApplicationQuit()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 }

@@ -13,6 +13,12 @@ public class AutoSpawnSlider : MonoBehaviour
         autoSpawnSlider = GetComponent<Slider>();
     }
 
+    private void Start()
+    {
+        var uiController = FindObjectOfType<UIController>();
+        uiController.SetAutoSpawnSlider(this);
+    }
+
     public void SetSliderValue(float sliderValue)
     {
         autoSpawnSlider.value = sliderValue;

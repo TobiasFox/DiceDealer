@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using System.Net.Mime;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
-    [SerializeField] private Text scoreText;
-    [SerializeField] private AutoSpawnSlider autoSpawnSlider;
-    [SerializeField] private AutoSpawnButton autoSpawnButton;
     private static GameObject INSTANCE;
+    
+    private Text scoreText;
+    private AutoSpawnSlider autoSpawnSlider;
+    private AutoSpawnButton autoSpawnButton;
 
     private void Awake()
     {
@@ -22,6 +24,7 @@ public class UIController : MonoBehaviour
         Destroy(gameObject);
     }
 
+
     public void UpdateScore(int score)
     {
         scoreText.text = score.ToString();
@@ -32,11 +35,24 @@ public class UIController : MonoBehaviour
     {
         autoSpawnSlider.SetSliderValue(sliderValue);
     }
-    
+
     public void SetAutoSpawnSliderMinMax(float min, float max)
     {
         autoSpawnSlider.SetSliderMinMax(min, max);
     }
 
-    
+    public void SetScoreTextField(Text scoreText)
+    {
+        this.scoreText = scoreText;
+    }
+
+    public void SetAutoSpawnButton(AutoSpawnButton autoSpawnButton)
+    {
+        this.autoSpawnButton = autoSpawnButton;
+    }
+
+    public void SetAutoSpawnSlider(AutoSpawnSlider autoSpawnSlider)
+    {
+        this.autoSpawnSlider = autoSpawnSlider;
+    }
 }

@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class AutoSpawnButton : MonoBehaviour
 {
-    [SerializeField] private Upgrade upgrade;
-
     private Button button;
     private bool isAutoSpawnActivated;
     private DiceSpawner diceSpawner;
@@ -19,6 +17,8 @@ public class AutoSpawnButton : MonoBehaviour
         gameScore = FindObjectOfType<GameScore>();
         buttonText = GetComponentInChildren<Text>();
         button = GetComponent<Button>();
+        var uiController = FindObjectOfType<UIController>();
+        uiController.SetAutoSpawnButton(this);
         UpdateButtonText();
     }
 
@@ -39,21 +39,22 @@ public class AutoSpawnButton : MonoBehaviour
     public void BuyUpgrade()
     {
         diceSpawner.ActivateAutoSpawn();
-        gameScore.BuyUpgrade(upgrade);
+        gameScore.BuyUpgrade();
         UpdateButtonText();
         button.interactable = false;
     }
 
     private void UpdateButtonText()
     {
-        buttonText.text = "Auto Spawner" + "\n" + upgrade.price;
+        buttonText.text = "Auto Spawner" + "\n" + gameScore.Upgrade.price;
     }
 
     public void CheckBuyingUpgrade(int score)
     {
-        if (score > upgrade.price)
+        if (score > gameScore.Upgrade.price)
         {
             button.interactable = true;
         }
     }
+    
 }
