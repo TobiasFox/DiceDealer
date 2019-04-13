@@ -204,10 +204,12 @@ public class Dice : MonoBehaviour
 //                die.SetActive(false);
                 die.GetComponent<Rigidbody>().AddForce(force, ForceMode.Impulse);
                 // apply a random torque
+                var transformLocalScale = die.transform.localScale;
                 die.GetComponent<Rigidbody>().AddTorque(
-                    new Vector3(-50 * Random.value * die.transform.localScale.magnitude,
-                        -50 * Random.value * die.transform.localScale.magnitude,
-                        -50 * Random.value * die.transform.localScale.magnitude), ForceMode.Impulse);
+                    new Vector3(-50 * Random.value * transformLocalScale.magnitude,
+                        -50 * Random.value * transformLocalScale.magnitude,
+                        -50 * Random.value * transformLocalScale.magnitude), ForceMode.Impulse);
+                
                 // create RollingDie class that will hold things like spawnpoint and force, to be used when activating the die at a later stage
 //                RollingDie rDie = new RollingDie(die, dieType, mat, spawnPoint, force);
                 // add RollingDie to allDices
@@ -299,6 +301,8 @@ public class Dice : MonoBehaviour
 
     /// <summary>
     /// Clears all currently rolling dice
+    ///
+    /// will not work anymore
     /// </summary>
     public static void Clear()
     {

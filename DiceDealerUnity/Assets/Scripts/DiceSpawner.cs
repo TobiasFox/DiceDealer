@@ -21,7 +21,7 @@ public class DiceSpawner : MonoBehaviour
     [SerializeField] private PoolName autoSpawnDiceType = PoolName.D6;
     private UIController uiController;
     private Transform spawnpoint;
-    private bool isAutoSpawn = true;
+    private bool isAutoSpawn;
     private float currentAutoSpawnValue;
 
     [Serializable]

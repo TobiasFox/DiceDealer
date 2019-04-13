@@ -9,25 +9,17 @@ public class DiceRepooler : MonoBehaviour
     [SerializeField] private float repoolWaitTime = 1;
 
     private ObjectPool objectPool;
-    private Coroutine repoolCoroutine;
-    private float timeIntervall;
-    private float spinTime = 5;
-    private Rigidbody rb;
-    public Vector3 spin { get; set; }
-    public Vector3 moveVector { get; set; }
 
     private void Start()
     {
         objectPool = FindObjectOfType<ObjectPool>();
-        rb = GetComponent<Rigidbody>();
-        timeIntervall = Time.time + spinTime;
     }
 
     public void RepoolGameobject()
     {
         if (!isInPool)
         {
-            repoolCoroutine = StartCoroutine(ReepolObjectAfterTime());
+            StartCoroutine(ReepolObjectAfterTime());
         }
     }
 
