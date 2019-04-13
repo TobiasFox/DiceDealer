@@ -8,7 +8,7 @@ public class AutoSpawnSlider : MonoBehaviour
     private Slider autoSpawnSlider;
     [SerializeField] private Text timeTextField;
 
-    void Awake()
+    private void Awake()
     {
         autoSpawnSlider = GetComponent<Slider>();
     }

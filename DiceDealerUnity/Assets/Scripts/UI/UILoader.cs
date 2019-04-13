@@ -5,9 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class UILoader : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Awake()
+    private void Awake()
     {
-        SceneManager.LoadScene("UI", LoadSceneMode.Additive);
+        SceneManager.LoadScene(1, LoadSceneMode.Additive);
     }
 }

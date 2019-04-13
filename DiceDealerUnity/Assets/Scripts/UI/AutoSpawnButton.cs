@@ -15,7 +15,7 @@ public class AutoSpawnButton : MonoBehaviour
     private GameScore gameScore;
     private Text buttonText;
 
-    void Start()
+    private void Start()
     {
         diceSpawner = FindObjectOfType<DiceSpawner>();
         gameScore = FindObjectOfType<GameScore>();

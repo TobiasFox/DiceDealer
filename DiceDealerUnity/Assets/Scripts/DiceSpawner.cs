@@ -85,7 +85,7 @@ public class DiceSpawner : MonoBehaviour
                 touch.phase == TouchPhase.Ended);
     }
 
-    public void SpawnCube(Vector3 position, Vector3 forceMin, Vector3 forceMax)
+    private void SpawnCube(Vector3 position, Vector3 forceMin, Vector3 forceMax)
     {
         GameObject dice = objectPool.GetOrInstantiateDice(PoolName.D6, position, Quaternion.identity);
         var rb = dice.GetComponent<Rigidbody>();
@@ -98,5 +98,10 @@ public class DiceSpawner : MonoBehaviour
             Random.Range(forceMin.z, forceMax.z));
         rb.AddForce(forceVector, ForceMode.Impulse);
         rb.AddRelativeTorque(forceVector, ForceMode.Impulse);
+    }
+
+    public void SpawnCube()
+    {
+        SpawnCube(spawnpoint.position, -randomForcePower, randomForcePower);
     }
 }
