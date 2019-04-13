@@ -5,11 +5,9 @@ using UnityEngine.UI;
 
 public class AutoSpawnButton : MonoBehaviour
 {
-    [SerializeField] private Color activatedColor;
-    [SerializeField] private Color deactivatedColor;
     [SerializeField] private Upgrade upgrade;
 
-    private Image autoSpawnButtonImage;
+    private Button button;
     private bool isAutoSpawnActivated;
     private DiceSpawner diceSpawner;
     private GameScore gameScore;
@@ -19,8 +17,8 @@ public class AutoSpawnButton : MonoBehaviour
     {
         diceSpawner = FindObjectOfType<DiceSpawner>();
         gameScore = FindObjectOfType<GameScore>();
-        autoSpawnButtonImage = GetComponent<Image>();
         buttonText = GetComponentInChildren<Text>();
+        button = GetComponent<Button>();
         UpdateButtonText();
     }
 
@@ -36,8 +34,6 @@ public class AutoSpawnButton : MonoBehaviour
         {
             diceSpawner.DeactivateAutoSpawn();
         }
-
-        autoSpawnButtonImage.color = isAutoSpawnActivated ? activatedColor : deactivatedColor;
     }
 
     public void BuyUpgrade()
@@ -45,10 +41,19 @@ public class AutoSpawnButton : MonoBehaviour
         diceSpawner.ActivateAutoSpawn();
         gameScore.BuyUpgrade(upgrade);
         UpdateButtonText();
+        button.interactable = false;
     }
 
     private void UpdateButtonText()
     {
         buttonText.text = "Auto Spawner" + "\n" + upgrade.price;
+    }
+
+    public void CheckBuyingUpgrade(int score)
+    {
+        if (score > upgrade.price)
+        {
+            button.interactable = true;
+        }
     }
 }

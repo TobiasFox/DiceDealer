@@ -8,6 +8,7 @@ public class UIController : MonoBehaviour
 {
     [SerializeField] private Text scoreText;
     [SerializeField] private AutoSpawnSlider autoSpawnSlider;
+    [SerializeField] private AutoSpawnButton autoSpawnButton;
     private static GameObject INSTANCE;
 
     private void Awake()
@@ -24,6 +25,7 @@ public class UIController : MonoBehaviour
     public void UpdateScore(int score)
     {
         scoreText.text = score.ToString();
+        autoSpawnButton.CheckBuyingUpgrade(score);
     }
 
     public void SetAutoSpawnSliderValue(float sliderValue)
@@ -35,5 +37,6 @@ public class UIController : MonoBehaviour
     {
         autoSpawnSlider.SetSliderMinMax(min, max);
     }
+
     
 }
