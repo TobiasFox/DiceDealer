@@ -11,4 +11,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/UI.unity
     guid: 385d6fc142d7d4447afc1ef54ab68ff6
+  - enabled: 1
+    path: Assets/Scenes/JuliusScene.unity
+    guid: e7e474519acaa71499530de18b3f27e3
+  - enabled: 1
+    path: Assets/Scenes/JuliusUI.unity
+    guid: e6980a4c2f747814c9e8ea9fdda46402
   m_configObjects: {}

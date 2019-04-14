@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RegisterUIElement : MonoBehaviour
+public class RegisterStatsAtUIController : MonoBehaviour
 {
     void Start()
     {
         var uiController = FindObjectOfType<UIController>();
-        uiController.SetScoreTextField(GetComponent<Text>());
+        uiController.statisticsPanel = gameObject;
     }
 
 }

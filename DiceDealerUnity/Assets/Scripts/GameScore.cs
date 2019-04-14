@@ -30,7 +30,7 @@ public class GameScore : MonoBehaviour
         if (INSTANCE == null)
         {
             INSTANCE = gameObject;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
             originUpgrade = Instantiate(upgrade) as Upgrade;
             SceneManager.sceneLoaded += OnSceneLoaded;
             return;
@@ -65,6 +65,7 @@ public class GameScore : MonoBehaviour
         gameScore += diceEyes;
 
         uiController.UpdateScore(gameScore);
+        uiController.UpdateStatistics(diceEyeCount);
         //Display gamescore
         //Debug.Log(diceEyes + " was countet: " + diceEyeCount[diceEyes] +"x");
         //Debug.Log("Gamescore: " + gameScore);
@@ -76,7 +77,7 @@ public class GameScore : MonoBehaviour
         upgrade = originUpgrade;
 
         SceneManager.LoadScene(0);
-
+        Init();
         uiController.UpdateScore(gameScore);
 
 //        uiController.ResetAutoSpawner();

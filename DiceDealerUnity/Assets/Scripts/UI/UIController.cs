@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Net.Mime;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -12,6 +14,7 @@ public class UIController : MonoBehaviour
     private Text scoreText;
     private AutoSpawnSlider autoSpawnSlider;
     private AutoSpawnButton autoSpawnButton;
+    public GameObject statisticsPanel;
 
     private void Awake()
     {
@@ -54,5 +57,15 @@ public class UIController : MonoBehaviour
     public void SetAutoSpawnSlider(AutoSpawnSlider autoSpawnSlider)
     {
         this.autoSpawnSlider = autoSpawnSlider;
+    }
+
+    internal void UpdateStatistics(int[] diceEyeCount)
+    {
+        for(int i = 0; i < statisticsPanel.transform.childCount; i++)
+        {
+            Transform child = statisticsPanel.transform.GetChild(i);
+            TextMeshProUGUI text = child.GetComponent<TextMeshProUGUI>();
+            text.text = i+1 + ": " + diceEyeCount[i+1].ToString() +"x";
+        }
     }
 }

@@ -5,8 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class UILoader : MonoBehaviour
 {
+    [SerializeField] private int sceneBuildIndex = 1;
     private void Awake()
     {
-        SceneManager.LoadScene(1, LoadSceneMode.Additive);
+        SceneManager.LoadScene(sceneBuildIndex, LoadSceneMode.Additive);
     }
 }
