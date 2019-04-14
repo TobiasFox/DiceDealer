@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,13 +10,13 @@ public class AutoSpawnButton : MonoBehaviour
     private bool isAutoSpawnActivated;
     private DiceSpawner diceSpawner;
     private GameScore gameScore;
-    private Text buttonText;
+    private TextMeshProUGUI buttonPriceText;
 
     private void Start()
     {
         diceSpawner = FindObjectOfType<DiceSpawner>();
         gameScore = FindObjectOfType<GameScore>();
-        buttonText = GetComponentInChildren<Text>();
+        buttonPriceText = GetComponentInChildren<TextMeshProUGUI>();
         button = GetComponent<Button>();
         var uiController = FindObjectOfType<UIController>();
         uiController.SetAutoSpawnButton(this);
@@ -46,7 +47,7 @@ public class AutoSpawnButton : MonoBehaviour
 
     private void UpdateButtonText()
     {
-        buttonText.text = "Auto Spawner" + "\n" + gameScore.Upgrade.price;
+        buttonPriceText.text = gameScore.Upgrade.price.ToString();
     }
 
     public void CheckBuyingUpgrade(int score)

@@ -11,7 +11,7 @@ public class UIController : MonoBehaviour
 {
     private static GameObject INSTANCE;
     
-    private Text scoreText;
+    private TextMeshProUGUI scoreText;
     private AutoSpawnSlider autoSpawnSlider;
     private AutoSpawnButton autoSpawnButton;
     public GameObject statisticsPanel;
@@ -44,7 +44,7 @@ public class UIController : MonoBehaviour
         autoSpawnSlider.SetSliderMinMax(min, max);
     }
 
-    public void SetScoreTextField(Text scoreText)
+    public void SetScoreTextField(TextMeshProUGUI scoreText)
     {
         this.scoreText = scoreText;
     }
@@ -65,7 +65,7 @@ public class UIController : MonoBehaviour
         {
             Transform child = statisticsPanel.transform.GetChild(i);
             TextMeshProUGUI text = child.GetComponent<TextMeshProUGUI>();
-            text.text = i+1 + ": " + diceEyeCount[i+1].ToString() +"x";
+            text.text = diceEyeCount[i+1].ToString() +"x";
         }
     }
 }
