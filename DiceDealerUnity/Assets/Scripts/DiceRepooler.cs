@@ -15,12 +15,14 @@ public class DiceRepooler : MonoBehaviour
         objectPool = FindObjectOfType<ObjectPool>();
     }
 
-    public void RepoolGameobject()
+    public float RepoolGameobject()
     {
         if (!isInPool)
         {
             StartCoroutine(ReepolObjectAfterTime());
+            return repoolWaitTime;
         }
+        return 0;
     }
 
     private IEnumerator ReepolObjectAfterTime()

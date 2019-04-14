@@ -132,9 +132,12 @@ public class Die : MonoBehaviour
         if (hitGround && !rolling && localHit && !diceRepooler.isInPool)
         {
             GetValue();
-            gameScore.AddScore(value);
             StartCoroutine(ShowScoreText());
-            diceRepooler.RepoolGameobject();
+            gameScore.AddScore(value);
+
+            float aktiveValueTime = diceRepooler.RepoolGameobject();
+            gameScore.AddActiveDieEyes(value, aktiveValueTime);
+
             hitGround = false;
         }
     }

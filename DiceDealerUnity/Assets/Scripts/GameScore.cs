@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.PlayerLoop;
@@ -8,7 +9,8 @@ public class GameScore : MonoBehaviour
 {
     private static GameObject INSTANCE;
 
-    [Tooltip("The maximum of eyes a dice can have to instantiate the eyes count array")] [SerializeField]
+    [Tooltip("The maximum of eyes a dice can have to instantiate the eyes count array")]
+    [SerializeField]
     private int maxDiceEyes = 6;
 
     [SerializeField] private Upgrade upgrade;
@@ -22,6 +24,7 @@ public class GameScore : MonoBehaviour
     private Upgrade originUpgrade;
     private int gameScore = 0;
     private int[] diceEyeCount;
+    private int[] activeDiceEyes;
     private UIController uiController;
     private DiceSpawner diceSpawner;
 
@@ -47,6 +50,7 @@ public class GameScore : MonoBehaviour
     private void Init()
     {
         diceEyeCount = new int[maxDiceEyes];
+        activeDiceEyes = new int[maxDiceEyes];
         uiController = FindObjectOfType<UIController>();
         diceSpawner = FindObjectOfType<DiceSpawner>();
     }
@@ -65,10 +69,28 @@ public class GameScore : MonoBehaviour
         gameScore += diceEyes;
 
         uiController.UpdateScore(gameScore);
-        uiController.UpdateStatistics(diceEyeCount);
+        uiController.UpdateStatistics(activeDiceEyes);
         //Display gamescore
         //Debug.Log(diceEyes + " was countet: " + diceEyeCount[diceEyes] +"x");
         //Debug.Log("Gamescore: " + gameScore);
+    }
+
+    public void AddActiveDieEyes(int value, float time)
+    {
+        activeDiceEyes[value] += 1;
+        StartCoroutine(RemoveActiveDieEyesAfterTime(value, time));
+    }
+
+    private IEnumerator RemoveActiveDieEyesAfterTime(int value, float time)
+    {
+        yield return new WaitForSeconds(time);
+        RemoveActiveDieEyes(value);
+    }
+
+    private void RemoveActiveDieEyes(int value)
+    {
+        activeDiceEyes[value] -= 1;
+        uiController.UpdateStatistics(activeDiceEyes);
     }
 
     public void ResetScore()
@@ -80,16 +102,16 @@ public class GameScore : MonoBehaviour
         Init();
         uiController.UpdateScore(gameScore);
 
-//        uiController.ResetAutoSpawner();
-//
-//        var activeDices = FindObjectsOfType<DiceRepooler>();
-//        if (activeDices != null)
-//        {
-//            foreach (var activeDice in activeDices)
-//            {
-//                activeDice.ResetDice();
-//            }
-//        }
+        //        uiController.ResetAutoSpawner();
+        //
+        //        var activeDices = FindObjectsOfType<DiceRepooler>();
+        //        if (activeDices != null)
+        //        {
+        //            foreach (var activeDice in activeDices)
+        //            {
+        //                activeDice.ResetDice();
+        //            }
+        //        }
     }
 
     public void BuyUpgrade()
