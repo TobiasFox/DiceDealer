@@ -1,16 +1,15 @@
 ﻿using System;
 using UnityEngine;
- 
+
 
 public class AudioManager : MonoBehaviour
 {
-
     public Sound[] sounds;
 
     private bool _sfxMuted;
     private bool _musicMuted;
     public AudioSource spawnAudioSource { get; private set; }
-    
+
     void Awake()
     {
         foreach (Sound s in sounds)
@@ -25,25 +24,12 @@ public class AudioManager : MonoBehaviour
                 spawnAudioSource = s.source;
             }
         }
-        
+
         Play("Background");
     }
 
-    public Sound GetSound(string name)
-    {
-        var s = Array.Find(sounds, sound => sound.name == name);
-        if (s == null)
-        {
-            Debug.LogWarning("Sound with " + name + " not found!");
-        }
-
-        return s;
-    }
-    
-
     public void Play(string name)
     {
-
         if (!_sfxMuted)
         {
             Sound s = Array.Find(sounds, sound => sound.name == name);
@@ -53,16 +39,16 @@ public class AudioManager : MonoBehaviour
                 return;
             }
 
-            if(s.clip.Length > 1)
+            if (s.clip.Length > 1)
             {
                 s.source.clip = s.clip[UnityEngine.Random.Range(0, s.clip.Length)];
             }
 
-            if(s.restartOnPlay)
+            if (s.restartOnPlay)
             {
                 s.source.Play();
             }
-            else if(!s.source.isPlaying)
+            else if (!s.source.isPlaying)
             {
                 s.source.Play();
             }
@@ -77,8 +63,25 @@ public class AudioManager : MonoBehaviour
             Debug.LogWarning("Sound with " + name + " not found!");
             return;
         }
+
         s.source.Pause();
     }
 
+    public void Mute()
+    {
+        _sfxMuted = true;
+        foreach (var sound in sounds)
+        {
+            sound.source.mute = _sfxMuted;
+        }
+    }
 
+    public void UnMute()
+    {
+        _sfxMuted = false;
+        foreach (var sound in sounds)
+        {
+            sound.source.mute = _sfxMuted;
+        }
+    }
 }
