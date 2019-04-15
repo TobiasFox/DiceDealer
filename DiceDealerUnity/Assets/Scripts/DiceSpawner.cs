@@ -17,12 +17,13 @@ public class DiceSpawner : MonoBehaviour
     }
 
     [SerializeField] Vector3 randomForcePower;
+    [SerializeField] private bool isAutoSpawn;
     [SerializeField] private AutoSpawnConfiguration[] autoSpawnPoints;
     [SerializeField] private PoolName autoSpawnDiceType = PoolName.D6;
     private UIController uiController;
     private Transform spawnpoint;
-    private bool isAutoSpawn;
     private float currentAutoSpawnValue;
+    private AudioManager audioManager;
 
     [Serializable]
     private struct AutoSpawnConfiguration
@@ -36,6 +37,7 @@ public class DiceSpawner : MonoBehaviour
     {
         spawnpoint = transform.GetChild(0);
         uiController = FindObjectOfType<UIController>();
+        audioManager = FindObjectOfType<AudioManager>();
     }
 
     public void ActivateAutoSpawn()
@@ -70,7 +72,8 @@ public class DiceSpawner : MonoBehaviour
         {
             var autoSpawnPoint = autoSpawnPoints[Random.Range(0, autoSpawnPoints.Length)];
             SpawnCube(autoSpawnPoint.spawnPoint.position, autoSpawnPoint.forceMin, autoSpawnPoint.forceMax);
-            
+            audioManager.Play("AutoSpawn");
+
             currentAutoSpawnValue = 0;
             uiController.SetAutoSpawnSliderMinMax(0, autoSpawnWaitTime);
         }
@@ -91,6 +94,8 @@ public class DiceSpawner : MonoBehaviour
                 touch.phase == TouchPhase.Ended);
     }
 
+    private int diceCounter;
+
     private void SpawnCube(Vector3 position, Vector3 forceMin, Vector3 forceMax)
     {
         var forceVector = new Vector3(Random.Range(forceMin.x, forceMax.x), 0,
@@ -98,10 +103,12 @@ public class DiceSpawner : MonoBehaviour
 
         Dice.Roll(autoSpawnDiceType, autoSpawnDiceType + "-" + RandomColor(), position, forceVector);
     }
-    
+
     public void SpawnCube()
     {
         SpawnCube(spawnpoint.position, -randomForcePower, randomForcePower);
+        audioManager.spawnAudioSource.pitch = Random.Range(0.75f, 1.05f);
+        audioManager.Play("Spawn");
     }
 
     private string RandomColor()

@@ -9,7 +9,8 @@ public class AudioManager : MonoBehaviour
 
     private bool _sfxMuted;
     private bool _musicMuted;
-    // Use this for initialization
+    public AudioSource spawnAudioSource { get; private set; }
+    
     void Awake()
     {
         foreach (Sound s in sounds)
@@ -19,10 +20,26 @@ public class AudioManager : MonoBehaviour
             s.source.volume = s.volume;
             s.source.pitch = s.pitch;
             s.source.loop = s.loop;
+            if (s.name.Equals("Spawn"))
+            {
+                spawnAudioSource = s.source;
+            }
         }
+        
+        Play("Background");
     }
 
+    public Sound GetSound(string name)
+    {
+        var s = Array.Find(sounds, sound => sound.name == name);
+        if (s == null)
+        {
+            Debug.LogWarning("Sound with " + name + " not found!");
+        }
 
+        return s;
+    }
+    
 
     public void Play(string name)
     {

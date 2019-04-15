@@ -43,4 +43,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c82f1961a3380e4f9c89c187079dceb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sounds: []
+  sounds:
+  - name: Background
+    clip:
+    - {fileID: 8300000, guid: 66e364f8615522249b6423c5d12f768e, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 1
+    restartOnPlay: 0
+    source: {fileID: 0}
+  - name: Spawn
+    clip:
+    - {fileID: 8300000, guid: 450e91bad50ed8947b8b9cc76b39ad77, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    restartOnPlay: 0
+    source: {fileID: 0}
+  - name: AutoSpawn
+    clip:
+    - {fileID: 8300000, guid: fe158b16e10f07a43b7b91b57ed2a801, type: 3}
+    - {fileID: 8300000, guid: 5fe3e8026dfa9e6418f9b48e41982e80, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    restartOnPlay: 0
+    source: {fileID: 0}
