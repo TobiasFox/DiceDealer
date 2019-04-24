@@ -15,3 +15,4 @@ MonoBehaviour:
   name: AutoSpawner
   price: 100
   upgradeMultiplier: 0.8
+  priceMultiplier: 0.4
