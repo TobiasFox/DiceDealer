@@ -2,18 +2,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Experimental.PlayerLoop;
 using UnityEngine.SceneManagement;
 
 public class GameScore : MonoBehaviour
 {
     private static GameObject INSTANCE;
 
-    [Tooltip("The maximum of eyes a dice can have to instantiate the eyes count array")]
-    [SerializeField]
+    [Tooltip("The maximum of eyes a dice can have to instantiate the eyes count array")] [SerializeField]
     private int maxDiceEyes = 6;
 
     [SerializeField] private Upgrade upgrade;
+    [SerializeField] private Combos combos;
 
     public Upgrade Upgrade
     {
@@ -53,6 +52,7 @@ public class GameScore : MonoBehaviour
         activeDiceEyes = new int[maxDiceEyes];
         uiController = FindObjectOfType<UIController>();
         diceSpawner = FindObjectOfType<DiceSpawner>();
+        combos.InitializeDiceComboDict();
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode sceneMode)
@@ -78,6 +78,12 @@ public class GameScore : MonoBehaviour
     public void AddActiveDieEyes(int value, float time)
     {
         activeDiceEyes[value] += 1;
+        var comboList = combos.CheckCombo(value, activeDiceEyes);
+        foreach (var diceCombo in comboList)
+        {
+            //uicontroller add effect for combo
+            uiController.ShowCombo(diceCombo.comboMultiplier);
+        }
         StartCoroutine(RemoveActiveDieEyesAfterTime(value, time));
     }
 
@@ -101,17 +107,6 @@ public class GameScore : MonoBehaviour
         SceneManager.LoadScene(0);
         Init();
         uiController.UpdateScore(gameScore);
-
-        //        uiController.ResetAutoSpawner();
-        //
-        //        var activeDices = FindObjectsOfType<DiceRepooler>();
-        //        if (activeDices != null)
-        //        {
-        //            foreach (var activeDice in activeDices)
-        //            {
-        //                activeDice.ResetDice();
-        //            }
-        //        }
     }
 
     public void BuyUpgrade()

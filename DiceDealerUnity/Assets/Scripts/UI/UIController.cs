@@ -11,6 +11,7 @@ public class UIController : MonoBehaviour
 {
     private static GameObject INSTANCE;
     
+    private TextMeshProUGUI comboText;
     private TextMeshProUGUI scoreText;
     private AutoSpawnSlider autoSpawnSlider;
     private AutoSpawnButton autoSpawnButton;
@@ -48,6 +49,12 @@ public class UIController : MonoBehaviour
     {
         this.scoreText = scoreText;
     }
+    
+    public void SetComboTextField(TextMeshProUGUI comboText)
+    {
+        this.comboText = comboText;
+        comboText.text = "";
+    }
 
     public void SetAutoSpawnButton(AutoSpawnButton autoSpawnButton)
     {
@@ -67,5 +74,11 @@ public class UIController : MonoBehaviour
             TextMeshProUGUI text = child.GetComponent<TextMeshProUGUI>();
             text.text = diceEyeCount[i+1].ToString() +"x";
         }
+    }
+
+    public void ShowCombo(float comboMultiplier)
+    {
+//        Debug.Log("COMBO:  " + comboMultiplier);
+        comboText.text = "COMBO:  " + comboMultiplier;
     }
 }

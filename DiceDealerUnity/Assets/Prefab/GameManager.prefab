@@ -46,6 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxDiceEyes: 7
   upgrade: {fileID: 11400000, guid: 46e1ae0eb0a00764b81ae684e963a110, type: 2}
+  combos: {fileID: 11400000, guid: 553ce822292b8514aa685b601d172292, type: 2}
 --- !u!114 &386233598770820718
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58,3 +59,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31128f89d062aa64cb26a72b2fbbec56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneBuildIndex: 1
