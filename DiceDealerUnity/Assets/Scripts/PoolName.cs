@@ -4,5 +4,6 @@ using UnityEngine;
 
 public enum PoolName
 {
-    D6
+    D6,
+    FloatText
 }

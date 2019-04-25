@@ -10,7 +10,6 @@ public class GameScore : MonoBehaviour
 
     [Tooltip("The maximum of eyes a dice can have to instantiate the eyes count array")] [SerializeField]
     private int maxDiceEyes = 6;
-
     [SerializeField] private Upgrade upgrade;
     [SerializeField] private Combos combos;
 
@@ -63,10 +62,12 @@ public class GameScore : MonoBehaviour
         }
     }
 
-    public void AddScore(int diceEyes)
+    public void AddScore(int diceEyes, float timeToSpawnFloatText, Vector3 floatTextPosition)
     {
         diceEyeCount[diceEyes] += 1;
         gameScore += diceEyes;
+
+        uiController.ShowScoreFloatText(diceEyes, floatTextPosition, timeToSpawnFloatText);
 
         uiController.UpdateScore(gameScore);
         uiController.UpdateStatistics(activeDiceEyes);

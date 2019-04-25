@@ -15,7 +15,11 @@ public class UIController : MonoBehaviour
     private TextMeshProUGUI scoreText;
     private AutoSpawnSlider autoSpawnSlider;
     private AutoSpawnButton autoSpawnButton;
-    public GameObject statisticsPanel;
+    private FloatTextSpawner floatTextSpawner;
+    private Camera camera;
+    public float randomComboTextSpawn = 20;
+
+    public GameObject statisticsPanel { get; set; }
 
     private void Awake()
     {
@@ -28,6 +32,11 @@ public class UIController : MonoBehaviour
         Destroy(gameObject);
     }
 
+    private void Start()
+    {
+        floatTextSpawner = GetComponent<FloatTextSpawner>();
+        camera = Camera.main;
+    }
 
     public void UpdateScore(int score)
     {
@@ -76,9 +85,18 @@ public class UIController : MonoBehaviour
         }
     }
 
+    internal void ShowScoreFloatText(int diceEyes, Vector3 position, float timeToSpawnFloatText)
+    {
+        string text = "+" + diceEyes;
+        Vector2 screenPos = camera.WorldToScreenPoint(position);
+        floatTextSpawner.SpawnFloatingTextAfterTime(text, screenPos, 1, timeToSpawnFloatText);
+    }
+
     public void ShowCombo(float comboMultiplier)
     {
 //        Debug.Log("COMBO:  " + comboMultiplier);
-        comboText.text = "COMBO:  " + comboMultiplier;
+        string text = "COMBO:  " + comboMultiplier;
+        Vector2 screenPos = new Vector2(Screen.width / 2, Screen.height / 2) + Vector2.one *(UnityEngine.Random.insideUnitSphere * randomComboTextSpawn);
+        floatTextSpawner.SpawnFloatingText(text, screenPos, 8);
     }
 }
