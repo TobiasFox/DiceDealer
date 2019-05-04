@@ -103,11 +103,11 @@ public class GameScore : MonoBehaviour
     public void ResetScore()
     {
         gameScore = 0;
-        upgrade = originUpgrade;
-
+        upgrade.price = originUpgrade.price;
+        upgrade.priceMultiplier = originUpgrade.priceMultiplier;
+        upgrade.upgradeMultiplier = originUpgrade.upgradeMultiplier;
+        
         SceneManager.LoadScene(0);
-        Init();
-        uiController.UpdateScore(gameScore);
     }
 
     public void BuyUpgrade()

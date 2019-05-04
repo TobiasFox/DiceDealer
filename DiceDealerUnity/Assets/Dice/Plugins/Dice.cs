@@ -93,7 +93,7 @@ public class Dice : MonoBehaviour
         if (inst != null)
         {
             // the instance could be created so set material, position, rotation and scale.
-            if (mat != "") inst.GetComponent<Renderer>().material = material(mat);
+//            if (mat != "") inst.GetComponent<Renderer>().material = material(mat);
             inst.transform.position = position;
             inst.transform.Rotate(rotation);
             inst.transform.localScale = scale;
