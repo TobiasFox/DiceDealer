@@ -7,7 +7,13 @@ public class AutoSpawnSlider : MonoBehaviour
 {
     private Slider autoSpawnSlider;
     [SerializeField] private Text timeTextField;
-
+    [SerializeField] private Color enableColor;
+    [SerializeField] private Color enableColorBackground;
+    [SerializeField] private Color disableColor;
+    [SerializeField] private Color disableColorBackground;
+    [SerializeField] private Image fillImage;
+    [SerializeField] private Image backgroundImage;
+    
     private void Awake()
     {
         autoSpawnSlider = GetComponent<Slider>();
@@ -30,4 +36,17 @@ public class AutoSpawnSlider : MonoBehaviour
         autoSpawnSlider.minValue = min;
         autoSpawnSlider.maxValue = max;
     }
+
+    public void SetEnableColor()
+    {
+        fillImage.color = enableColor;
+        backgroundImage.color = enableColorBackground;
+    }
+    
+    public void SetDisableColor()
+    {
+        fillImage.color = disableColor;
+        backgroundImage.color = disableColorBackground;
+    }
+    
 }

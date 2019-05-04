@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 public class AutoSpawnButton : MonoBehaviour
 {
+    [SerializeField] private ParticleSystem activateParticleSystem;
+    [SerializeField] private AutoSpawnSlider autoSpawnSlider;
+    
     private Button button;
     private bool isAutoSpawnActivated;
     private DiceSpawner diceSpawner;
@@ -43,6 +46,8 @@ public class AutoSpawnButton : MonoBehaviour
         gameScore.BuyUpgrade();
         UpdateButtonText();
         button.interactable = false;
+        autoSpawnSlider.SetDisableColor();
+        activateParticleSystem?.Stop();
     }
 
     private void UpdateButtonText()
@@ -55,6 +60,8 @@ public class AutoSpawnButton : MonoBehaviour
         if (score > gameScore.Upgrade.price)
         {
             button.interactable = true;
+            autoSpawnSlider.SetEnableColor();
+            activateParticleSystem?.Play();
         }
     }
     

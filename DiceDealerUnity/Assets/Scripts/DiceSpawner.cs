@@ -67,7 +67,8 @@ public class DiceSpawner : MonoBehaviour
     private void AutoSpawnCube()
     {
         currentAutoSpawnValue = Mathf.MoveTowards(currentAutoSpawnValue, autoSpawnWaitTime, Time.deltaTime);
-
+        uiController.SetAutoSpawnSliderValue(currentAutoSpawnValue);
+        
         if (currentAutoSpawnValue >= autoSpawnWaitTime)
         {
             var autoSpawnPoint = autoSpawnPoints[Random.Range(0, autoSpawnPoints.Length)];
@@ -78,7 +79,6 @@ public class DiceSpawner : MonoBehaviour
             uiController.SetAutoSpawnSliderMinMax(0, autoSpawnWaitTime);
         }
 
-        uiController.SetAutoSpawnSliderValue(autoSpawnWaitTime - currentAutoSpawnValue);
     }
 
     private bool IsTouched()
