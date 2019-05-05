@@ -17,7 +17,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/JuliusUI.unity
     guid: e6980a4c2f747814c9e8ea9fdda46402
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/GameUI.unity
     guid: 538526f5b2846cd46bc1863011e5cbf4
   m_configObjects: {}

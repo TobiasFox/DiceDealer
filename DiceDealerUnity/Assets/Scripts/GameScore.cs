@@ -120,6 +120,16 @@ public class GameScore : MonoBehaviour
         }
     }
 
+    public bool BuyUpgrade(int price)
+    {
+        if (gameScore >= price)
+        {
+            gameScore -= price;
+            return true;
+        }
+        return false;
+    }
+
     private void OnApplicationQuit()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;

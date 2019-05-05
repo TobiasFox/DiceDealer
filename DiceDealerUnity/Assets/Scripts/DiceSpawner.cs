@@ -24,6 +24,8 @@ public class DiceSpawner : MonoBehaviour
     private Transform spawnpoint;
     private float currentAutoSpawnValue;
     private AudioManager audioManager;
+    private int autospawnCount = 1;
+
 
     [Serializable]
     private struct AutoSpawnConfiguration
@@ -51,11 +53,15 @@ public class DiceSpawner : MonoBehaviour
         isAutoSpawn = false;
     }
 
+    public void UpgradeAutospawnCount(int addedDices = 1)
+    {
+        autospawnCount += addedDices;
+    }
     private void Update()
     {
         if (isAutoSpawn)
         {
-            AutoSpawnCube();
+            AutoSpawnCubes(autospawnCount);
         }
 
         if (Input.GetKey(KeyCode.Space) || IsTouched())
@@ -64,15 +70,19 @@ public class DiceSpawner : MonoBehaviour
         }
     }
 
-    private void AutoSpawnCube()
+    private void AutoSpawnCubes(int count)
     {
         currentAutoSpawnValue = Mathf.MoveTowards(currentAutoSpawnValue, autoSpawnWaitTime, Time.deltaTime);
         uiController.SetAutoSpawnSliderValue(currentAutoSpawnValue);
-        
+
         if (currentAutoSpawnValue >= autoSpawnWaitTime)
         {
             var autoSpawnPoint = autoSpawnPoints[Random.Range(0, autoSpawnPoints.Length)];
-            SpawnCube(autoSpawnPoint.spawnPoint.position, autoSpawnPoint.forceMin, autoSpawnPoint.forceMax);
+
+            for (int i = 0; i < count; i++)
+            {
+                SpawnCube(autoSpawnPoint.spawnPoint.position, autoSpawnPoint.forceMin, autoSpawnPoint.forceMax);
+            }
             audioManager.Play("AutoSpawn");
 
             currentAutoSpawnValue = 0;
