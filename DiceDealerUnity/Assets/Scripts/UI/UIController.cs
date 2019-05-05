@@ -15,6 +15,7 @@ public class UIController : MonoBehaviour
     private TextMeshProUGUI scoreText;
     private AutoSpawnSlider autoSpawnSlider;
     private AutoSpawnButton autoSpawnButton;
+    private AutoSpawnMultiplier autoSpawnMultiplier;
     private FloatTextSpawner floatTextSpawner;
     private Camera camera;
     public float randomComboTextSpawn = 20;
@@ -42,6 +43,7 @@ public class UIController : MonoBehaviour
     {
         scoreText.text = score.ToString();
         autoSpawnButton.CheckBuyingUpgrade(score);
+        autoSpawnMultiplier.CheckBuyingUpgrade(score);
     }
 
     public void SetAutoSpawnSliderValue(float sliderValue)
@@ -73,6 +75,11 @@ public class UIController : MonoBehaviour
     public void SetAutoSpawnSlider(AutoSpawnSlider autoSpawnSlider)
     {
         this.autoSpawnSlider = autoSpawnSlider;
+    }
+    
+    public void SetAutoSpawnMultiplier(AutoSpawnMultiplier autoSpawnMultiplier)
+    {
+        this.autoSpawnMultiplier = autoSpawnMultiplier;
     }
 
     internal void UpdateStatistics(int[] diceEyeCount)

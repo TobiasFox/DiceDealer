@@ -7,31 +7,34 @@ using UnityEngine.UI;
 
 public class AutoSpawnMultiplier : MonoBehaviour
 {
-
-    //[SerializeField] private ParticleSystem activateParticleSystem;
-    [SerializeField] private AutoSpawnSlider autoSpawnSlider;
     [SerializeField] private float UpgradePriceMultiplier = 0.8f;
+    [SerializeField] private TextMeshProUGUI buttonPriceText;
+    [SerializeField] private TextMeshProUGUI buttonDiceCountText;
 
     private Button button;
     private bool isAutoSpawnActivated;
     private DiceSpawner diceSpawner;
     private GameScore gameScore;
-    private TextMeshProUGUI buttonPriceText;
     private int price = 100;
+    private int boughtUpgrades = 0;
+    private string buttonDiceCountLabelText;
 
     private void Start()
     {
         diceSpawner = FindObjectOfType<DiceSpawner>();
         gameScore = FindObjectOfType<GameScore>();
-        buttonPriceText = GetComponentInChildren<TextMeshProUGUI>();
         button = GetComponent<Button>();
         var uiController = FindObjectOfType<UIController>();
+        uiController.SetAutoSpawnMultiplier(this);
+        buttonDiceCountLabelText = buttonDiceCountText.text;
+        buttonDiceCountText.text += 0;
     }
 
 
     private void UpdateButtonText(string upgradePrice)
     {
         buttonPriceText.text = upgradePrice;
+        buttonDiceCountText.text = buttonDiceCountLabelText + ++boughtUpgrades;
     }
 
     public void BuyUpgrade()
@@ -40,10 +43,17 @@ public class AutoSpawnMultiplier : MonoBehaviour
         if (purchaceSuccsessful)
         {
             diceSpawner.UpgradeAutospawnCount();
-            price += (int)(price * UpgradePriceMultiplier);
+            price += (int) (price * UpgradePriceMultiplier);
             UpdateButtonText(price.ToString());
+            button.interactable = false;
         }
     }
 
-
+    public void CheckBuyingUpgrade(int score)
+    {
+        if (score >= price)
+        {
+            button.interactable = true;
+        }
+    }
 }

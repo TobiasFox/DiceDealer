@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class AutoSpawnButton : MonoBehaviour
 {
-    [SerializeField] private ParticleSystem activateParticleSystem;
     [SerializeField] private AutoSpawnSlider autoSpawnSlider;
     
     private Button button;
@@ -47,7 +46,6 @@ public class AutoSpawnButton : MonoBehaviour
         UpdateButtonText();
         button.interactable = false;
         autoSpawnSlider.SetDisableColor();
-        activateParticleSystem?.Stop();
     }
 
     private void UpdateButtonText()
@@ -61,7 +59,6 @@ public class AutoSpawnButton : MonoBehaviour
         {
             button.interactable = true;
             autoSpawnSlider.SetEnableColor();
-            activateParticleSystem?.Play();
         }
     }
     
