@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3616,7 +3616,6 @@ GameObject:
   - component: {fileID: 720220362}
   - component: {fileID: 720220364}
   - component: {fileID: 720220363}
-  - component: {fileID: 720220365}
   m_Layer: 5
   m_Name: Score
   m_TagString: Untagged
@@ -3767,18 +3766,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 720220361}
   m_CullTransparentMesh: 0
---- !u!114 &720220365
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 720220361}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13c4efa9b6226ef4ab2fdf779ed876fe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &747548277
 GameObject:
   m_ObjectHideFlags: 0
@@ -17567,7 +17554,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 147f77cc97d642245af31cc7be563a8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UpgradePriceMultiplier: 0.8
+  upgradePriceMultiplier: 0.8
   buttonPriceText: {fileID: 1120602604}
   buttonDiceCountText: {fileID: 1181604071}
 --- !u!114 &1529144214
@@ -19000,6 +18987,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreText: {fileID: 720220363}
+  addedText: {fileID: 0}
   autoSpawnSlider: {fileID: 943724048}
   autoSpawnButton: {fileID: 406954408}
   autoSpawnMultiplier: {fileID: 1529144213}

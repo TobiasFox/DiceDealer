@@ -60,7 +60,6 @@ public class GameScore : MonoBehaviour
                 var autoSpawnDuration = PlayerPrefs.GetFloat(PlayerPrefsKey.AutoSpawnerDuration.ToString(), 3);
 
                 gameScore = (int) Math.Ceiling(timeDiff.TotalSeconds / autoSpawnDuration);
-
                 Debug.Log("loaded gamescore: " + gameScore);
             }
         }
@@ -134,6 +133,15 @@ public class GameScore : MonoBehaviour
         }
 
         return false;
+    }
+
+    private void OnApplicationPause(bool pauseStatus)
+    {
+        if (pauseStatus)
+        {
+            PlayerPrefs.SetString(PlayerPrefsKey.LastTimestamp.ToString(), DateTime.Now.ToBinary().ToString());
+            PlayerPrefs.Save();
+        }
     }
 
     private void OnApplicationQuit()

@@ -5,6 +5,6 @@ using UnityEngine;
 public enum PlayerPrefsKey
 {
     LastTimestamp,
-    AUtoSpawnerUpgradeLevel,
+    AutoSpawnerUpgradeLevel,
     AutoSpawnerDuration,
 }
