@@ -5,7 +5,6 @@ using UnityEngine;
 public class ResetButton : MonoBehaviour
 {
     private GameScore gameScore;
-//    private DiceSpawner
 
     void Start()
     {

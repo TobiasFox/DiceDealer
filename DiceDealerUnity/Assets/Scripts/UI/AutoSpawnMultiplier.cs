@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class AutoSpawnMultiplier : MonoBehaviour
 {
-    [SerializeField] private float UpgradePriceMultiplier = 0.8f;
+    [SerializeField] private float upgradePriceMultiplier = 0.8f;
     [SerializeField] private TextMeshProUGUI buttonPriceText;
     [SerializeField] private TextMeshProUGUI buttonDiceCountText;
 
@@ -19,17 +19,14 @@ public class AutoSpawnMultiplier : MonoBehaviour
     private int boughtUpgrades = 0;
     private string buttonDiceCountLabelText;
 
-    private void Start()
+    private void Awake()
     {
         diceSpawner = FindObjectOfType<DiceSpawner>();
         gameScore = FindObjectOfType<GameScore>();
         button = GetComponent<Button>();
-        var uiController = FindObjectOfType<UIController>();
-        uiController.SetAutoSpawnMultiplier(this);
         buttonDiceCountLabelText = buttonDiceCountText.text;
         buttonDiceCountText.text += 0;
     }
-
 
     private void UpdateButtonText(string upgradePrice)
     {
@@ -43,17 +40,13 @@ public class AutoSpawnMultiplier : MonoBehaviour
         if (purchaceSuccsessful)
         {
             diceSpawner.UpgradeAutospawnCount();
-            price += (int) (price * UpgradePriceMultiplier);
+            price += (int) (price * upgradePriceMultiplier);
             UpdateButtonText(price.ToString());
-            button.interactable = false;
         }
     }
 
     public void CheckBuyingUpgrade(int score)
     {
-        if (score >= price)
-        {
-            button.interactable = true;
-        }
+        button.interactable = score >= price;
     }
 }

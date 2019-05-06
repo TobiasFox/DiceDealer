@@ -6,10 +6,12 @@ using UnityEngine.SceneManagement;
 
 public class GameScore : MonoBehaviour
 {
+    private static bool isInitialized;
     private static GameObject INSTANCE;
 
     [Tooltip("The maximum of eyes a dice can have to instantiate the eyes count array")] [SerializeField]
     private int maxDiceEyes = 6;
+
     [SerializeField] private Upgrade upgrade;
     [SerializeField] private Combos combos;
 
@@ -19,7 +21,7 @@ public class GameScore : MonoBehaviour
         set => upgrade = value;
     }
 
-    private Upgrade originUpgrade;
+    private static Upgrade originUpgrade;
     private int gameScore = 0;
     private int[] diceEyeCount;
     private int[] activeDiceEyes;
@@ -28,16 +30,10 @@ public class GameScore : MonoBehaviour
 
     private void Awake()
     {
-        if (INSTANCE == null)
+        if (originUpgrade == null)
         {
-            INSTANCE = gameObject;
-            //DontDestroyOnLoad(gameObject);
             originUpgrade = Instantiate(upgrade) as Upgrade;
-            SceneManager.sceneLoaded += OnSceneLoaded;
-            return;
         }
-
-        Destroy(gameObject);
     }
 
     private void Start()
@@ -52,14 +48,24 @@ public class GameScore : MonoBehaviour
         uiController = FindObjectOfType<UIController>();
         diceSpawner = FindObjectOfType<DiceSpawner>();
         combos.InitializeDiceComboDict();
-    }
 
-    private void OnSceneLoaded(Scene scene, LoadSceneMode sceneMode)
-    {
-        if (scene.buildIndex == 0)
+        if (PlayerPrefs.HasKey(PlayerPrefsKey.LastTimestamp.ToString()))
         {
-            Init();
+            var lastTimestamp = PlayerPrefs.GetString(PlayerPrefsKey.LastTimestamp.ToString());
+            var timeDiff = DateTime.Now - DateTime.FromBinary(Convert.ToInt64(lastTimestamp));
+
+            //TODO: load other variables from PlayerPrefs
+            if (PlayerPrefs.GetInt(PlayerPrefsKey.AutoSpawnerUpgradeLevel.ToString(), 0) > 0)
+            {
+                var autoSpawnDuration = PlayerPrefs.GetFloat(PlayerPrefsKey.AutoSpawnerDuration.ToString(), 3);
+
+                gameScore = (int) Math.Ceiling(timeDiff.TotalSeconds / autoSpawnDuration);
+
+                Debug.Log("loaded gamescore: " + gameScore);
+            }
         }
+
+        uiController.UpdateScore(gameScore);
     }
 
     public void AddScore(int diceEyes, float timeToSpawnFloatText, Vector3 floatTextPosition)
@@ -71,9 +77,6 @@ public class GameScore : MonoBehaviour
 
         uiController.UpdateScore(gameScore);
         uiController.UpdateStatistics(activeDiceEyes);
-        //Display gamescore
-        //Debug.Log(diceEyes + " was countet: " + diceEyeCount[diceEyes] +"x");
-        //Debug.Log("Gamescore: " + gameScore);
     }
 
     public void AddActiveDieEyes(int value, float time)
@@ -82,9 +85,9 @@ public class GameScore : MonoBehaviour
         var comboList = combos.CheckCombo(value, activeDiceEyes);
         foreach (var diceCombo in comboList)
         {
-            //uicontroller add effect for combo
             uiController.ShowCombo(diceCombo.comboMultiplier);
         }
+
         StartCoroutine(RemoveActiveDieEyesAfterTime(value, time));
     }
 
@@ -106,7 +109,7 @@ public class GameScore : MonoBehaviour
         upgrade.price = originUpgrade.price;
         upgrade.priceMultiplier = originUpgrade.priceMultiplier;
         upgrade.upgradeMultiplier = originUpgrade.upgradeMultiplier;
-        
+
         SceneManager.LoadScene(0);
     }
 
@@ -117,6 +120,7 @@ public class GameScore : MonoBehaviour
             gameScore -= upgrade.price;
             diceSpawner.AutoSpawnWaitTime *= upgrade.upgradeMultiplier;
             upgrade.CalculateNextUpgradePrice();
+            uiController.UpdateScore(gameScore);
         }
     }
 
@@ -125,13 +129,15 @@ public class GameScore : MonoBehaviour
         if (gameScore >= price)
         {
             gameScore -= price;
+            uiController.UpdateScore(gameScore);
             return true;
         }
+
         return false;
     }
 
     private void OnApplicationQuit()
     {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
+        PlayerPrefs.SetString(PlayerPrefsKey.LastTimestamp.ToString(), DateTime.Now.ToBinary().ToString());
     }
 }
