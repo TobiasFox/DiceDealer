@@ -19,7 +19,6 @@ public class GameScore : MonoBehaviour
     private int[] activeDiceEyes;
     private UIController uiController;
 
-
     private void Start()
     {
         Init();
@@ -32,23 +31,8 @@ public class GameScore : MonoBehaviour
         uiController = FindObjectOfType<UIController>();
         combos.InitializeDiceComboDict();
 
-        gameScore = PlayerPrefs.GetInt(PlayerPrefsKey.GameScore.ToString());
-
-        if (PlayerPrefs.HasKey(PlayerPrefsKey.LastTimestamp.ToString()))
-        {
-            var lastTimestamp = PlayerPrefs.GetString(PlayerPrefsKey.LastTimestamp.ToString());
-            var timeDiff = DateTime.Now - DateTime.FromBinary(Convert.ToInt64(lastTimestamp));
-
-            //TODO: load other variables from PlayerPrefs
-            if (PlayerPrefs.GetInt(PlayerPrefsKey.AutoSpawnerUpgradeLevel.ToString(), 0) > 0)
-            {
-                var autoSpawnDuration = PlayerPrefs.GetFloat(PlayerPrefsKey.AutoSpawnerDuration.ToString(), 3);
-
-                gameScore += (int) Math.Ceiling(timeDiff.TotalSeconds / autoSpawnDuration);
-                Debug.Log("loaded gamescore: " + gameScore);
-            }
-        }
-
+        gameScore = PlayerPrefs.GetInt(PlayerPrefsKey.GameScore.ToString(), 0);
+        Debug.Log("loaded score: " + gameScore);
         uiController.UpdateScore(gameScore);
     }
 
@@ -91,20 +75,9 @@ public class GameScore : MonoBehaviour
     {
         gameScore = 0;
         PlayerPrefs.DeleteAll();
+        PlayerPrefs.Save();
         SceneManager.LoadScene(0);
     }
-
-    //public void BuyUpgrade()
-    //{
-    //    if (gameScore >= upgrade.price)
-    //    {
-    //        gameScore -= upgrade.price;
-    //        PlayerPrefs.SetInt(PlayerPrefsKey.GameScore.ToString(), gameScore);
-    //        diceSpawner.AutoSpawnWaitTime *= upgrade.upgradeMultiplier;
-    //        upgrade.CalculateNextUpgradePrice();
-    //        uiController.UpdateScore(gameScore);
-    //    }
-    //}
 
     public bool BuyUpgrade(int price)
     {
@@ -117,6 +90,13 @@ public class GameScore : MonoBehaviour
         }
 
         return false;
+    }
+
+    public void AddLoadedGameScore(int score)
+    {
+        gameScore += score;
+        PlayerPrefs.SetInt(PlayerPrefsKey.GameScore.ToString(), gameScore);
+        uiController.UpdateScore(gameScore);
     }
 
     private void OnApplicationPause(bool pauseStatus)

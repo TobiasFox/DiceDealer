@@ -2,11 +2,9 @@
 public enum PlayerPrefsKey
 {
     LastTimestamp,
-    AutoSpawnerUpgradeLevel,
-    AutoSpawnerDuration,
     GameScore,
     AutoSpawnerPrice,
+    AutoSpawnWaitTime,
     AutoSpawnMultiplierPrice,
-    AutospawnWaitTime,
     AutoSpawnCount
 }

@@ -14,6 +14,7 @@ public class DiceSpawner : MonoBehaviour
     [SerializeField] private AutoSpawnConfiguration[] autoSpawnPoints;
     [SerializeField] private PoolName autoSpawnDiceType = PoolName.D6;
     private UIController uiController;
+    private GameScore gameScore;
     private Transform spawnpoint;
     private float currentAutoSpawnValue;
     private AudioManager audioManager;
@@ -33,21 +34,41 @@ public class DiceSpawner : MonoBehaviour
         spawnpoint = transform.GetChild(0);
         uiController = FindObjectOfType<UIController>();
         audioManager = FindObjectOfType<AudioManager>();
+        gameScore = FindObjectOfType<GameScore>();
         LoadPlayerPrefs();
     }
 
     private void LoadPlayerPrefs()
     {
-        if (PlayerPrefs.HasKey(PlayerPrefsKey.AutospawnWaitTime.ToString()))
+        if (PlayerPrefs.HasKey(PlayerPrefsKey.AutoSpawnWaitTime.ToString()))
         {
-            autoSpawnWaitTime = PlayerPrefs.GetFloat(PlayerPrefsKey.AutospawnWaitTime.ToString());
+            autoSpawnWaitTime = PlayerPrefs.GetFloat(PlayerPrefsKey.AutoSpawnWaitTime.ToString());
             ActivateAutoSpawn();
         }
+
         if (PlayerPrefs.HasKey(PlayerPrefsKey.AutoSpawnCount.ToString()))
         {
             autospawnCount = PlayerPrefs.GetInt(PlayerPrefsKey.AutoSpawnCount.ToString());
         }
 
+        if (isAutoSpawn && PlayerPrefs.HasKey(PlayerPrefsKey.LastTimestamp.ToString()))
+        {
+            var lastTimestamp = PlayerPrefs.GetString(PlayerPrefsKey.LastTimestamp.ToString());
+            var timeDiff = DateTime.Now - DateTime.FromBinary(Convert.ToInt64(lastTimestamp));
+
+            int diceThrows = (int) Math.Ceiling(timeDiff.TotalSeconds / autoSpawnWaitTime);
+            int scoreToAdd = 0;
+            for (int i = 0; i < diceThrows; i++)
+            {
+                for (int j = 0; j < autospawnCount; j++)
+                {
+                    scoreToAdd += Random.Range(1, 6);
+                }
+            }
+
+            gameScore.AddLoadedGameScore(scoreToAdd);
+            Debug.Log("absent for " + timeDiff.ToString() + ", added gameScore: " + scoreToAdd);
+        }
     }
 
     public void ActivateAutoSpawn()
@@ -56,6 +77,7 @@ public class DiceSpawner : MonoBehaviour
         {
             uiController.SetAutoSpawnSliderMinMax(0, autoSpawnWaitTime);
         }
+
         isAutoSpawn = true;
     }
 
@@ -73,7 +95,7 @@ public class DiceSpawner : MonoBehaviour
     public void UpgradeAutospawnWaitTime(float multiplier)
     {
         autoSpawnWaitTime *= multiplier;
-        PlayerPrefs.SetFloat(PlayerPrefsKey.AutospawnWaitTime.ToString(), autoSpawnWaitTime);
+        PlayerPrefs.SetFloat(PlayerPrefsKey.AutoSpawnWaitTime.ToString(), autoSpawnWaitTime);
     }
 
     private void Update()
@@ -102,12 +124,12 @@ public class DiceSpawner : MonoBehaviour
             {
                 SpawnCube(autoSpawnPoint.spawnPoint.position, autoSpawnPoint.forceMin, autoSpawnPoint.forceMax);
             }
+
             audioManager.Play("AutoSpawn");
 
             currentAutoSpawnValue = 0;
             uiController.SetAutoSpawnSliderMinMax(0, autoSpawnWaitTime);
         }
-
     }
 
     private bool IsTouched()

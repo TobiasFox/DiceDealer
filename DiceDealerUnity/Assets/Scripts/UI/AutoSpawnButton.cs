@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,17 +20,30 @@ public class AutoSpawnButton : MonoBehaviour
         diceSpawner = FindObjectOfType<DiceSpawner>();
         gameScore = FindObjectOfType<GameScore>();
         button = GetComponent<Button>();
+    }
+
+    private void Start()
+    {
+        if (PlayerPrefs.HasKey(PlayerPrefsKey.LastTimestamp.ToString()))
+        {
+            var lastTimestamp = PlayerPrefs.GetString(PlayerPrefsKey.LastTimestamp.ToString());
+            var timeDiff = DateTime.Now - DateTime.FromBinary(Convert.ToInt64(lastTimestamp));
+
+            if (PlayerPrefs.HasKey(PlayerPrefsKey.AutoSpawnWaitTime.ToString()))
+            {
+                var autoSpawnWaitTime = PlayerPrefs.GetFloat(PlayerPrefsKey.AutoSpawnWaitTime.ToString());
+                var score = (int) Math.Ceiling(timeDiff.TotalSeconds / autoSpawnWaitTime);
+                gameScore.AddLoadedGameScore(score);
+                Debug.Log("added gameScore: " + score);
+            }
+        }
 
         upgradePrice = PlayerPrefs.GetInt(PlayerPrefsKey.AutoSpawnerPrice.ToString());
         if (upgradePrice <= 0)
         {
             upgradePrice = upgrade.price;
         }
-        UpdateButtonText();
-    }
 
-    private void Start()
-    {
         UpdateButtonText();
     }
 
@@ -54,11 +68,10 @@ public class AutoSpawnButton : MonoBehaviour
         {
             diceSpawner.ActivateAutoSpawn();
             diceSpawner.UpgradeAutospawnWaitTime(upgrade.upgradeMultiplier);
-            upgradePrice += (int)(upgrade.priceMultiplier * upgradePrice);
+            upgradePrice += (int) (upgrade.priceMultiplier * upgradePrice);
             PlayerPrefs.SetInt(PlayerPrefsKey.AutoSpawnerPrice.ToString(), upgradePrice);
             UpdateButtonText();
         }
-
     }
 
     private void UpdateButtonText()
@@ -79,5 +92,4 @@ public class AutoSpawnButton : MonoBehaviour
             autoSpawnSlider.SetDisableColor();
         }
     }
-
 }
