@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -15,26 +14,11 @@ public class GameScore : MonoBehaviour
     [SerializeField] private Upgrade upgrade;
     [SerializeField] private Combos combos;
 
-    public Upgrade Upgrade
-    {
-        get => upgrade;
-        set => upgrade = value;
-    }
-
-    private static Upgrade originUpgrade;
     private int gameScore = 0;
     private int[] diceEyeCount;
     private int[] activeDiceEyes;
     private UIController uiController;
-    private DiceSpawner diceSpawner;
 
-    private void Awake()
-    {
-        if (originUpgrade == null)
-        {
-            originUpgrade = Instantiate(upgrade) as Upgrade;
-        }
-    }
 
     private void Start()
     {
@@ -46,8 +30,9 @@ public class GameScore : MonoBehaviour
         diceEyeCount = new int[maxDiceEyes];
         activeDiceEyes = new int[maxDiceEyes];
         uiController = FindObjectOfType<UIController>();
-        diceSpawner = FindObjectOfType<DiceSpawner>();
         combos.InitializeDiceComboDict();
+
+        gameScore = PlayerPrefs.GetInt(PlayerPrefsKey.GameScore.ToString());
 
         if (PlayerPrefs.HasKey(PlayerPrefsKey.LastTimestamp.ToString()))
         {
@@ -59,7 +44,7 @@ public class GameScore : MonoBehaviour
             {
                 var autoSpawnDuration = PlayerPrefs.GetFloat(PlayerPrefsKey.AutoSpawnerDuration.ToString(), 3);
 
-                gameScore = (int) Math.Ceiling(timeDiff.TotalSeconds / autoSpawnDuration);
+                gameScore += (int) Math.Ceiling(timeDiff.TotalSeconds / autoSpawnDuration);
                 Debug.Log("loaded gamescore: " + gameScore);
             }
         }
@@ -71,9 +56,9 @@ public class GameScore : MonoBehaviour
     {
         diceEyeCount[diceEyes] += 1;
         gameScore += diceEyes;
+        PlayerPrefs.SetInt(PlayerPrefsKey.GameScore.ToString(), gameScore);
 
         uiController.ShowScoreFloatText(diceEyes, floatTextPosition, timeToSpawnFloatText);
-
         uiController.UpdateScore(gameScore);
         uiController.UpdateStatistics(activeDiceEyes);
     }
@@ -105,29 +90,28 @@ public class GameScore : MonoBehaviour
     public void ResetScore()
     {
         gameScore = 0;
-        upgrade.price = originUpgrade.price;
-        upgrade.priceMultiplier = originUpgrade.priceMultiplier;
-        upgrade.upgradeMultiplier = originUpgrade.upgradeMultiplier;
-
+        PlayerPrefs.DeleteAll();
         SceneManager.LoadScene(0);
     }
 
-    public void BuyUpgrade()
-    {
-        if (gameScore >= upgrade.price)
-        {
-            gameScore -= upgrade.price;
-            diceSpawner.AutoSpawnWaitTime *= upgrade.upgradeMultiplier;
-            upgrade.CalculateNextUpgradePrice();
-            uiController.UpdateScore(gameScore);
-        }
-    }
+    //public void BuyUpgrade()
+    //{
+    //    if (gameScore >= upgrade.price)
+    //    {
+    //        gameScore -= upgrade.price;
+    //        PlayerPrefs.SetInt(PlayerPrefsKey.GameScore.ToString(), gameScore);
+    //        diceSpawner.AutoSpawnWaitTime *= upgrade.upgradeMultiplier;
+    //        upgrade.CalculateNextUpgradePrice();
+    //        uiController.UpdateScore(gameScore);
+    //    }
+    //}
 
     public bool BuyUpgrade(int price)
     {
         if (gameScore >= price)
         {
             gameScore -= price;
+            PlayerPrefs.SetInt(PlayerPrefsKey.GameScore.ToString(), gameScore);
             uiController.UpdateScore(gameScore);
             return true;
         }

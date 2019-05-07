@@ -9,13 +9,6 @@ using Random = UnityEngine.Random;
 public class DiceSpawner : MonoBehaviour
 {
     [SerializeField] private float autoSpawnWaitTime;
-
-    public float AutoSpawnWaitTime
-    {
-        get => autoSpawnWaitTime;
-        set => autoSpawnWaitTime = value;
-    }
-
     [SerializeField] Vector3 randomForcePower;
     [SerializeField] private bool isAutoSpawn;
     [SerializeField] private AutoSpawnConfiguration[] autoSpawnPoints;
@@ -40,11 +33,29 @@ public class DiceSpawner : MonoBehaviour
         spawnpoint = transform.GetChild(0);
         uiController = FindObjectOfType<UIController>();
         audioManager = FindObjectOfType<AudioManager>();
+        LoadPlayerPrefs();
+    }
+
+    private void LoadPlayerPrefs()
+    {
+        if (PlayerPrefs.HasKey(PlayerPrefsKey.AutospawnWaitTime.ToString()))
+        {
+            autoSpawnWaitTime = PlayerPrefs.GetFloat(PlayerPrefsKey.AutospawnWaitTime.ToString());
+            ActivateAutoSpawn();
+        }
+        if (PlayerPrefs.HasKey(PlayerPrefsKey.AutoSpawnCount.ToString()))
+        {
+            autospawnCount = PlayerPrefs.GetInt(PlayerPrefsKey.AutoSpawnCount.ToString());
+        }
+
     }
 
     public void ActivateAutoSpawn()
     {
-        uiController.SetAutoSpawnSliderMinMax(0, autoSpawnWaitTime);
+        if (uiController != null)
+        {
+            uiController.SetAutoSpawnSliderMinMax(0, autoSpawnWaitTime);
+        }
         isAutoSpawn = true;
     }
 
@@ -56,7 +67,15 @@ public class DiceSpawner : MonoBehaviour
     public void UpgradeAutospawnCount(int addedDices = 1)
     {
         autospawnCount += addedDices;
+        PlayerPrefs.SetInt(PlayerPrefsKey.AutoSpawnCount.ToString(), autospawnCount);
     }
+
+    public void UpgradeAutospawnWaitTime(float multiplier)
+    {
+        autoSpawnWaitTime *= multiplier;
+        PlayerPrefs.SetFloat(PlayerPrefsKey.AutospawnWaitTime.ToString(), autoSpawnWaitTime);
+    }
+
     private void Update()
     {
         if (isAutoSpawn)

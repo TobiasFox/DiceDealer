@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -89,7 +89,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ShowResolutionOverlay: 1
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -580,6 +580,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   autoSpawnSlider: {fileID: 1770840763}
   buttonPriceText: {fileID: 0}
+  upgrade: {fileID: 0}
 --- !u!114 &93653002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -847,7 +848,6 @@ GameObject:
   - component: {fileID: 134482951}
   - component: {fileID: 134482950}
   - component: {fileID: 134482949}
-  - component: {fileID: 134482952}
   m_Layer: 5
   m_Name: StatisticPanel
   m_TagString: Untagged
@@ -941,18 +941,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 134482947}
   m_CullTransparentMesh: 1
---- !u!114 &134482952
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 134482947}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac94cc22909cb874b9c32ac4a9119ea7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &162615141
 GameObject:
   m_ObjectHideFlags: 0
@@ -1162,7 +1150,6 @@ GameObject:
   - component: {fileID: 200475096}
   - component: {fileID: 200475095}
   - component: {fileID: 200475094}
-  - component: {fileID: 200475093}
   m_Layer: 5
   m_Name: StatisticCount
   m_TagString: Untagged
@@ -1195,18 +1182,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -373}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &200475093
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 200475091}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac94cc22909cb874b9c32ac4a9119ea7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &200475094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1940,6 +1915,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   autoSpawnSlider: {fileID: 943724048}
   buttonPriceText: {fileID: 782472980}
+  upgrade: {fileID: 11400000, guid: 46e1ae0eb0a00764b81ae684e963a110, type: 2}
 --- !u!114 &406954409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3167,7 +3143,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 28.35
+  m_fontSize: 28.4
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3298,6 +3274,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   autoSpawnSlider: {fileID: 699418941}
   buttonPriceText: {fileID: 0}
+  upgrade: {fileID: 0}
 --- !u!114 &686805245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10814,7 +10791,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: 'dice count = '
+  m_text: 'x '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c3a9634b749b1294d87758f2b686039d, type: 2}
   m_sharedMaterial: {fileID: 21052806129759112, guid: c3a9634b749b1294d87758f2b686039d,
@@ -10884,10 +10861,10 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: -93.52648, w: 0}
   m_textInfo:
     textComponent: {fileID: 1181604071}
-    characterCount: 13
+    characterCount: 2
     spriteCount: 0
-    spaceCount: 3
-    wordCount: 2
+    spaceCount: 1
+    wordCount: 1
     linkCount: 0
     lineCount: 1
     pageCount: 1
@@ -11295,6 +11272,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   autoSpawnSlider: {fileID: 1127526154}
   buttonPriceText: {fileID: 0}
+  upgrade: {fileID: 0}
 --- !u!114 &1230261153
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17554,7 +17532,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 147f77cc97d642245af31cc7be563a8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upgradePriceMultiplier: 0.8
+  upgrade: {fileID: 11400000, guid: 7739b18f28054ba40ba92fa87eea606b, type: 2}
   buttonPriceText: {fileID: 1120602604}
   buttonDiceCountText: {fileID: 1181604071}
 --- !u!114 &1529144214
@@ -18987,7 +18965,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreText: {fileID: 720220363}
-  addedText: {fileID: 0}
   autoSpawnSlider: {fileID: 943724048}
   autoSpawnButton: {fileID: 406954408}
   autoSpawnMultiplier: {fileID: 1529144213}

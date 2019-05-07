@@ -9,11 +9,4 @@ public class Upgrade : ScriptableObject
     public float upgradeMultiplier;
     public float priceMultiplier;
 
-    private int upgradeLevel = 0;
-
-    internal void CalculateNextUpgradePrice()
-    {
-        price += (int) Math.Ceiling(price * priceMultiplier);
-        upgradeLevel++;
-    }
 }
