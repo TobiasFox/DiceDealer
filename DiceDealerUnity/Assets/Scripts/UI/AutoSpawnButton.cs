@@ -24,20 +24,6 @@ public class AutoSpawnButton : MonoBehaviour
 
     private void Start()
     {
-        if (PlayerPrefs.HasKey(PlayerPrefsKey.LastTimestamp.ToString()))
-        {
-            var lastTimestamp = PlayerPrefs.GetString(PlayerPrefsKey.LastTimestamp.ToString());
-            var timeDiff = DateTime.Now - DateTime.FromBinary(Convert.ToInt64(lastTimestamp));
-
-            if (PlayerPrefs.HasKey(PlayerPrefsKey.AutoSpawnWaitTime.ToString()))
-            {
-                var autoSpawnWaitTime = PlayerPrefs.GetFloat(PlayerPrefsKey.AutoSpawnWaitTime.ToString());
-                var score = (int) Math.Ceiling(timeDiff.TotalSeconds / autoSpawnWaitTime);
-                gameScore.AddLoadedGameScore(score);
-                Debug.Log("added gameScore: " + score);
-            }
-        }
-
         upgradePrice = PlayerPrefs.GetInt(PlayerPrefsKey.AutoSpawnerPrice.ToString());
         if (upgradePrice <= 0)
         {
