@@ -89,7 +89,7 @@ public class Combos : ScriptableObject
     {
         private static int IDCounter;
 
-        public float comboMultiplier;
+        public float comboPoints;
         public int[] diceEyes;
 
 

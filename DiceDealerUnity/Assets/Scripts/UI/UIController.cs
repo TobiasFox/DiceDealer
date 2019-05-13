@@ -8,6 +8,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private AutoSpawnButton autoSpawnButton;
     [SerializeField] private AutoSpawnMultiplier autoSpawnMultiplier;
     [SerializeField] private GameObject statisticsPanel;
+    [SerializeField] private string[] awesomeWords;
 
     private FloatTextSpawner floatTextSpawner;
     private Camera camera;
@@ -53,10 +54,12 @@ public class UIController : MonoBehaviour
         floatTextSpawner.SpawnFloatingTextAfterTime(text, screenPos, 1, timeToSpawnFloatText);
     }
 
-    public void ShowCombo(float comboMultiplier)
+    public void ShowCombo(float comboScore)
     {
 //        Debug.Log("COMBO:  " + comboMultiplier);
-        string text = "COMBO:  " + comboMultiplier;
+        string text = awesomeWords[Random.Range(0, awesomeWords.Length-1)]
+            + "\n"
+            + comboScore;
         Vector2 screenPos = new Vector2(Screen.width / 2, Screen.height / 2) +
                             Vector2.one * (UnityEngine.Random.insideUnitSphere * randomComboTextSpawn);
         floatTextSpawner.SpawnFloatingText(text, screenPos, 8);

@@ -8,16 +8,20 @@ public class GameScore : MonoBehaviour
     private static bool isInitialized;
     private static GameObject INSTANCE;
 
-    [Tooltip("The maximum of eyes a dice can have to instantiate the eyes count array")] [SerializeField]
+    [Tooltip("The maximum of eyes a dice can have to instantiate the eyes count array")]
+    [SerializeField]
     private int maxDiceEyes = 6;
 
     [SerializeField] private Upgrade upgrade;
     [SerializeField] private Combos combos;
+    [SerializeField] private float comboCollectWaitTime = 0.5f;
 
+    private float comboCollectedTime;
     private int gameScore = 0;
     private int[] diceEyeCount;
     private int[] activeDiceEyes;
     private UIController uiController;
+    private float comboScore = 0;
 
     private void Start()
     {
@@ -36,6 +40,19 @@ public class GameScore : MonoBehaviour
         uiController.UpdateScore(gameScore);
     }
 
+    private void Update()
+    {
+        if (comboScore > 0 && comboCollectedTime < Time.timeSinceLevelLoad - comboCollectWaitTime)
+        {
+            comboCollectedTime = Time.timeSinceLevelLoad;
+
+            uiController.ShowCombo(comboScore);
+            gameScore += (int)comboScore;
+
+            comboScore = 0;
+        }
+    }
+
     public void AddScore(int diceEyes, float timeToSpawnFloatText, Vector3 floatTextPosition)
     {
         diceEyeCount[diceEyes] += 1;
@@ -47,13 +64,15 @@ public class GameScore : MonoBehaviour
         uiController.UpdateStatistics(activeDiceEyes);
     }
 
+
     public void AddActiveDieEyes(int value, float time)
     {
         activeDiceEyes[value] += 1;
         var comboList = combos.CheckCombo(value, activeDiceEyes);
         foreach (var diceCombo in comboList)
         {
-            uiController.ShowCombo(diceCombo.comboMultiplier);
+            Debug.Log(diceCombo.comboPoints);
+            comboScore += diceCombo.comboPoints;
         }
 
         StartCoroutine(RemoveActiveDieEyesAfterTime(value, time));
