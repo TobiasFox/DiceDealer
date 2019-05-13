@@ -6,13 +6,14 @@ public class ResetButton : MonoBehaviour
 {
     private GameScore gameScore;
 
-    void Start()
+    private void Start()
     {
         gameScore = FindObjectOfType<GameScore>();
     }
 
     public void ResetScore()
     {
+        
         gameScore.ResetScore();
     }
 }

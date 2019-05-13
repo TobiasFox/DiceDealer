@@ -22,7 +22,7 @@ public class AutoSpawnSlider : MonoBehaviour
     public void SetSliderValue(float sliderValue)
     {
         autoSpawnSlider.value = sliderValue;
-        timeTextField.text = (autoSpawnSlider.value).ToString("F1");
+      //  timeTextField.text = (autoSpawnSlider.value).ToString("F1");
     }
 
     public void SetSliderMinMax(float min, float max)
