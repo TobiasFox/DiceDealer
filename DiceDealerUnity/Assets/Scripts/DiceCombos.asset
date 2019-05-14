@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: DiceCombos
   m_EditorClassIdentifier: 
   diceCombos:
-  - comboPoints: 20
+  - comboPoints: 200
     diceEyes: 020000000000000000000000000000000000000000000000
-  - comboPoints: 20
+  - comboPoints: 200
     diceEyes: 000000000200000000000000000000000000000000000000
-  - comboPoints: 20
+  - comboPoints: 200
     diceEyes: 000000000000000002000000000000000000000000000000
-  - comboPoints: 20
+  - comboPoints: 200
     diceEyes: 000000000000000000000000020000000000000000000000
-  - comboPoints: 20
+  - comboPoints: 0
     diceEyes: 000000000000000000000000000000000200000000000000
-  - comboPoints: 20
+  - comboPoints: 200
     diceEyes: 000000000000000000000000000000000000000002000000
