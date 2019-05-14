@@ -89,7 +89,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ShowResolutionOverlay: 1
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -697,11 +697,11 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: 'freesound.org/people/mwirth/
+  m_text: 'soundcloud.com/leonhardwolf
 
-    freesound.org/people/SeanMPorio/
+    freesound.org/people/mwirth
 
-    soundcloud.com/leonhardwolf'
+    freesound.org/people/SeanMPorio'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -770,7 +770,7 @@ MonoBehaviour:
   m_margin: {x: -155.2619, y: 0, z: -248.58147, w: 0}
   m_textInfo:
     textComponent: {fileID: 128015498}
-    characterCount: 89
+    characterCount: 87
     spriteCount: 0
     spaceCount: 2
     wordCount: 11
@@ -2554,7 +2554,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: 'Font:'
+  m_text: Font
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2623,7 +2623,7 @@ MonoBehaviour:
   m_margin: {x: -155.2619, y: 0, z: -248.58147, w: 0}
   m_textInfo:
     textComponent: {fileID: 661520129}
-    characterCount: 5
+    characterCount: 4
     spriteCount: 0
     spaceCount: 0
     wordCount: 1
@@ -3379,7 +3379,9 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: "Julius Hartmann, \nTobias Fox"
+  m_text: 'Julius Hartmann
+
+    Tobias Fox'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3448,9 +3450,9 @@ MonoBehaviour:
   m_margin: {x: -155.2619, y: 0, z: -248.58147, w: 0}
   m_textInfo:
     textComponent: {fileID: 827615107}
-    characterCount: 28
+    characterCount: 26
     spriteCount: 0
-    spaceCount: 4
+    spaceCount: 3
     wordCount: 4
     linkCount: 0
     lineCount: 2
@@ -5398,9 +5400,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: 'dafont.com/de/bullpen.font
-
-    dafont.com/de/merit.font'
+  m_text: dafont.com/de/merit.font
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -5469,12 +5469,12 @@ MonoBehaviour:
   m_margin: {x: -155.2619, y: 0, z: -248.58147, w: 0}
   m_textInfo:
     textComponent: {fileID: 1315789338}
-    characterCount: 51
+    characterCount: 24
     spriteCount: 0
-    spaceCount: 1
-    wordCount: 10
+    spaceCount: 0
+    wordCount: 5
     linkCount: 0
-    lineCount: 2
+    lineCount: 1
     pageCount: 1
     materialCount: 1
   m_havePropertiesChanged: 0
@@ -5721,10 +5721,10 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: 'Credits:
+  m_text: 'Credits
 
 
-    Programmer:'
+    Programmer'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -5793,7 +5793,7 @@ MonoBehaviour:
   m_margin: {x: -155.2619, y: 0, z: -248.58147, w: 0}
   m_textInfo:
     textComponent: {fileID: 1397873695}
-    characterCount: 21
+    characterCount: 19
     spriteCount: 0
     spaceCount: 2
     wordCount: 2
@@ -6255,7 +6255,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: 'Sound/Music:'
+  m_text: Sound/Music
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -6324,7 +6324,7 @@ MonoBehaviour:
   m_margin: {x: -155.2619, y: 0, z: -248.58147, w: 0}
   m_textInfo:
     textComponent: {fileID: 1553823349}
-    characterCount: 12
+    characterCount: 11
     spriteCount: 0
     spaceCount: 0
     wordCount: 2
@@ -6415,7 +6415,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: 'Icons:'
+  m_text: Icons
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -6484,7 +6484,7 @@ MonoBehaviour:
   m_margin: {x: -155.2619, y: 0, z: -248.58147, w: 0}
   m_textInfo:
     textComponent: {fileID: 1555134699}
-    characterCount: 6
+    characterCount: 5
     spriteCount: 0
     spaceCount: 0
     wordCount: 1
