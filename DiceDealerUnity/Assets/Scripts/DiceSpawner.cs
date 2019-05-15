@@ -8,6 +8,8 @@ using Random = UnityEngine.Random;
 
 public class DiceSpawner : MonoBehaviour
 {
+    private const int MinDiceCountRollingDice = 5;
+    
     [SerializeField] private float autoSpawnWaitTime;
     [SerializeField] Vector3 randomForcePower;
     [SerializeField] private bool isAutoSpawn;
@@ -19,7 +21,9 @@ public class DiceSpawner : MonoBehaviour
     private float currentAutoSpawnValue;
     private AudioManager audioManager;
     private int autospawnCount = 1;
-
+    private Sound rollingDiceSound;
+    private float rollingDiceClipLength;
+    private int diceCounter;
 
     [Serializable]
     private struct AutoSpawnConfiguration
@@ -36,6 +40,7 @@ public class DiceSpawner : MonoBehaviour
         audioManager = FindObjectOfType<AudioManager>();
         gameScore = FindObjectOfType<GameScore>();
         LoadPlayerPrefs();
+        rollingDiceSound = audioManager.GetSound("RollingDice");
     }
 
     private void LoadPlayerPrefs()
@@ -120,6 +125,8 @@ public class DiceSpawner : MonoBehaviour
         {
             var autoSpawnPoint = autoSpawnPoints[Random.Range(0, autoSpawnPoints.Length)];
 
+            PlayRollingDiceSound(count);
+
             for (int i = 0; i < count; i++)
             {
                 SpawnCube(autoSpawnPoint.spawnPoint.position, autoSpawnPoint.forceMin, autoSpawnPoint.forceMax);
@@ -129,6 +136,23 @@ public class DiceSpawner : MonoBehaviour
 
             currentAutoSpawnValue = 0;
             uiController.SetAutoSpawnSliderMinMax(0, autoSpawnWaitTime);
+        }
+    }
+
+    private void PlayRollingDiceSound(int count)
+    {
+        if (count >= MinDiceCountRollingDice && !rollingDiceSound.loop)
+        {
+            if (autoSpawnWaitTime > rollingDiceSound.clip[0].length)
+            {
+                audioManager.Play("RollingDice");
+            }
+            else
+            {
+                rollingDiceSound.loop = true;
+                rollingDiceSound.source.loop = true;
+                audioManager.Play("RollingDice");
+            }
         }
     }
 
@@ -145,8 +169,6 @@ public class DiceSpawner : MonoBehaviour
                 touch.phase == TouchPhase.Ended);
     }
 
-    private int diceCounter;
-
     private void SpawnCube(Vector3 position, Vector3 forceMin, Vector3 forceMax)
     {
         var forceVector = new Vector3(Random.Range(forceMin.x, forceMax.x), 0,
@@ -158,7 +180,6 @@ public class DiceSpawner : MonoBehaviour
     public void SpawnCube()
     {
         SpawnCube(spawnpoint.position, -randomForcePower, randomForcePower);
-        audioManager.spawnAudioSource.pitch = Random.Range(0.75f, 1.05f);
         audioManager.Play("Spawn");
     }
 

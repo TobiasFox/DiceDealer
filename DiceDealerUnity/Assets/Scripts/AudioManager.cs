@@ -1,5 +1,7 @@
 ﻿using System;
+using JetBrains.Annotations;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 
 public class AudioManager : MonoBehaviour
@@ -50,6 +52,11 @@ public class AudioManager : MonoBehaviour
             }
             else if (!s.source.isPlaying)
             {
+                if (name.Equals("AutoSpawn") || name.Equals("Spawn"))
+                {
+                    s.source.pitch = Random.Range(0.75f, 1.05f);
+                }
+
                 s.source.Play();
             }
         }
@@ -65,6 +72,12 @@ public class AudioManager : MonoBehaviour
         }
 
         s.source.Pause();
+    }
+
+    [CanBeNull]
+    public Sound GetSound(string name)
+    {
+        return Array.Find(sounds, sound => sound.name == name);
     }
 
     public void Mute()
