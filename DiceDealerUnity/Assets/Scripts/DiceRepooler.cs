@@ -7,6 +7,7 @@ public class DiceRepooler : MonoBehaviour
     public bool isInPool { get; set; }
 
     [SerializeField] private float repoolWaitTime = 1;
+    [SerializeField] private float waitTimeDiceFactor = 1;
 
     private ObjectPool objectPool;
 
@@ -15,22 +16,25 @@ public class DiceRepooler : MonoBehaviour
         objectPool = FindObjectOfType<ObjectPool>();
     }
 
-    public float RepoolGameobject()
+    public float RepoolGameobject(float totalDices = 0f)
     {
         if (!isInPool)
         {
-            StartCoroutine(ReepolObjectAfterTime());
-            return repoolWaitTime;
+            float factorizedWaitTime = (repoolWaitTime / (waitTimeDiceFactor * totalDices));
+            float newRepoolTime = totalDices > 0 && factorizedWaitTime < repoolWaitTime ? factorizedWaitTime : repoolWaitTime;
+            StartCoroutine(ReepolObjectAfterTime(newRepoolTime));
+            return newRepoolTime;
         }
         return 0;
     }
 
-    private IEnumerator ReepolObjectAfterTime()
+    private IEnumerator ReepolObjectAfterTime(float repoolTime)
     {
-        yield return new WaitForSeconds(repoolWaitTime);
+        yield return new WaitForSeconds(repoolTime);
         isInPool = true;
         objectPool.EnqueueGameObject(PoolName.D6, gameObject);
     }
 
     
 }
+

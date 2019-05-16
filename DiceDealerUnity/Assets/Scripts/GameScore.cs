@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -116,6 +117,11 @@ public class GameScore : MonoBehaviour
         gameScore += score;
         PlayerPrefs.SetInt(PlayerPrefsKey.GameScore.ToString(), gameScore);
         uiController.UpdateScore(gameScore);
+    }
+
+    public int GetActiveDice()
+    {
+        return activeDiceEyes.Sum();
     }
 
     private void OnApplicationPause(bool pauseStatus)

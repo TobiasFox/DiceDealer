@@ -133,8 +133,8 @@ public class Die : MonoBehaviour
         {
             GetValue();
             StartCoroutine(ShowScoreText());
-            
-            float aktiveValueTime = diceRepooler.RepoolGameobject();
+            int totalDices = gameScore.GetActiveDice();
+            float aktiveValueTime = diceRepooler.RepoolGameobject(totalDices);
             gameScore.AddScore(value, aktiveValueTime, transform.position);
             gameScore.AddActiveDieEyes(value, aktiveValueTime);
 

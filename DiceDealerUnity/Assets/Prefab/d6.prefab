@@ -139,6 +139,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   repoolWaitTime: 2
+  waitTimeDiceFactor: 0.8
 --- !u!1 &6337290887612785544
 GameObject:
   m_ObjectHideFlags: 0
