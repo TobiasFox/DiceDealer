@@ -5,10 +5,9 @@ using UnityEngine.UI;
 
 public class AutoSpawnButton : MonoBehaviour
 {
-    [SerializeField] private AutoSpawnSlider autoSpawnSlider;
-    [SerializeField] private TextMeshProUGUI buttonPriceText;
     [SerializeField] private Upgrade upgrade;
 
+    private TextMeshProUGUI buttonPriceText;
     private Button button;
     private bool isAutoSpawnActivated;
     private DiceSpawner diceSpawner;
@@ -20,10 +19,8 @@ public class AutoSpawnButton : MonoBehaviour
         diceSpawner = FindObjectOfType<DiceSpawner>();
         gameScore = FindObjectOfType<GameScore>();
         button = GetComponent<Button>();
-    }
-
-    private void Start()
-    {
+        buttonPriceText = GetComponentInChildren<TextMeshProUGUI>();
+        
         upgradePrice = PlayerPrefs.GetInt(PlayerPrefsKey.AutoSpawnerPrice.ToString());
         if (upgradePrice <= 0)
         {
@@ -70,12 +67,10 @@ public class AutoSpawnButton : MonoBehaviour
         if (score >= upgradePrice)
         {
             button.interactable = true;
-            autoSpawnSlider.SetEnableColor();
         }
         else
         {
             button.interactable = false;
-            autoSpawnSlider.SetDisableColor();
         }
     }
 }

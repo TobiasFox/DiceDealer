@@ -4,7 +4,7 @@ using UnityEngine;
 public class UIController : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI scoreText;
-    [SerializeField] private AutoSpawnSlider autoSpawnSlider;
+//    [SerializeField] private AutoSpawnSlider autoSpawnSlider;
     [SerializeField] private AutoSpawnButton autoSpawnButton;
     [SerializeField] private AutoSpawnMultiplier autoSpawnMultiplier;
     [SerializeField] private GameObject statisticsPanel;
@@ -25,16 +25,6 @@ public class UIController : MonoBehaviour
         scoreText.text = score.ToString();
         autoSpawnButton.CheckBuyingUpgrade(score);
         autoSpawnMultiplier.CheckBuyingUpgrade(score);
-    }
-
-    public void SetAutoSpawnSliderValue(float sliderValue)
-    {
-        autoSpawnSlider.SetSliderValue(sliderValue);
-    }
-
-    public void SetAutoSpawnSliderMinMax(float min, float max)
-    {
-        autoSpawnSlider.SetSliderMinMax(min, max);
     }
 
     internal void UpdateStatistics(int[] diceEyeCount)

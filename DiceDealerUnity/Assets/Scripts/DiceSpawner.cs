@@ -15,7 +15,6 @@ public class DiceSpawner : MonoBehaviour
     [SerializeField] private bool isAutoSpawn;
     [SerializeField] private AutoSpawnConfiguration[] autoSpawnPoints;
     [SerializeField] private PoolName autoSpawnDiceType = PoolName.D6;
-    private UIController uiController;
     private GameScore gameScore;
     private Transform spawnpoint;
     private float currentAutoSpawnValue;
@@ -36,7 +35,7 @@ public class DiceSpawner : MonoBehaviour
     private void Start()
     {
         spawnpoint = transform.GetChild(0);
-        uiController = FindObjectOfType<UIController>();
+//        uiController = FindObjectOfType<UIController>();
         audioManager = FindObjectOfType<AudioManager>();
         gameScore = FindObjectOfType<GameScore>();
         LoadPlayerPrefs();
@@ -78,11 +77,6 @@ public class DiceSpawner : MonoBehaviour
 
     public void ActivateAutoSpawn()
     {
-        if (uiController != null)
-        {
-            uiController.SetAutoSpawnSliderMinMax(0, autoSpawnWaitTime);
-        }
-
         isAutoSpawn = true;
     }
 
@@ -119,7 +113,6 @@ public class DiceSpawner : MonoBehaviour
     private void AutoSpawnCubes(int count)
     {
         currentAutoSpawnValue = Mathf.MoveTowards(currentAutoSpawnValue, autoSpawnWaitTime, Time.deltaTime);
-        uiController.SetAutoSpawnSliderValue(currentAutoSpawnValue);
 
         if (currentAutoSpawnValue >= autoSpawnWaitTime)
         {
@@ -135,7 +128,6 @@ public class DiceSpawner : MonoBehaviour
             audioManager.Play("AutoSpawn");
 
             currentAutoSpawnValue = 0;
-            uiController.SetAutoSpawnSliderMinMax(0, autoSpawnWaitTime);
         }
     }
 
