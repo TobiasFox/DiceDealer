@@ -30,20 +30,6 @@ public class AutoSpawnButton : MonoBehaviour
         UpdateButtonText();
     }
 
-    public void ChangeAutoSpawnState()
-    {
-        isAutoSpawnActivated = !isAutoSpawnActivated;
-
-        if (isAutoSpawnActivated)
-        {
-            diceSpawner.ActivateAutoSpawn();
-        }
-        else
-        {
-            diceSpawner.DeactivateAutoSpawn();
-        }
-    }
-
     public void BuyUpgrade()
     {
         bool purchaseSuccsessfull = gameScore.BuyUpgrade(upgradePrice);
@@ -64,13 +50,11 @@ public class AutoSpawnButton : MonoBehaviour
 
     public void CheckBuyingUpgrade(int score)
     {
-        if (score >= upgradePrice)
-        {
-            button.interactable = true;
-        }
-        else
-        {
-            button.interactable = false;
-        }
+        button.interactable = score >= upgradePrice;
+    }
+
+    public bool IsAutoSpawnActive()
+    {
+        return diceSpawner.IsAutoSpawnActive();
     }
 }

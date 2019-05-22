@@ -30,7 +30,7 @@ public class AutoSpawnMultiplier : MonoBehaviour
         diceSpawner = FindObjectOfType<DiceSpawner>();
         gameScore = FindObjectOfType<GameScore>();
         button = GetComponent<Button>();
-//        buttonDiceCountLabelText = buttonDiceCountText.text;
+        buttonDiceCountLabelText = buttonDiceCountText.text;
     }
 
     private void Start()
@@ -46,7 +46,7 @@ public class AutoSpawnMultiplier : MonoBehaviour
     private void UpdateButtonText()
     {
         buttonPriceText.text = upgradePrice.ToString();
-//        buttonDiceCountText.text = buttonDiceCountLabelText + boughtUpgrades;
+        buttonDiceCountText.text = buttonDiceCountLabelText + boughtUpgrades;
     }
 
     public void BuyUpgrade()

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Schema;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Random = UnityEngine.Random;
@@ -78,6 +79,11 @@ public class DiceSpawner : MonoBehaviour
     public void ActivateAutoSpawn()
     {
         isAutoSpawn = true;
+    }
+
+    public bool IsAutoSpawnActive()
+    {
+        return isAutoSpawn;
     }
 
     public void DeactivateAutoSpawn()

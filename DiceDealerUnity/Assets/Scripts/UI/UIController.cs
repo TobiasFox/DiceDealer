@@ -4,7 +4,7 @@ using UnityEngine;
 public class UIController : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI scoreText;
-//    [SerializeField] private AutoSpawnSlider autoSpawnSlider;
+
     [SerializeField] private AutoSpawnButton autoSpawnButton;
     [SerializeField] private AutoSpawnMultiplier autoSpawnMultiplier;
     [SerializeField] private GameObject statisticsPanel;
@@ -24,7 +24,10 @@ public class UIController : MonoBehaviour
     {
         scoreText.text = score.ToString();
         autoSpawnButton.CheckBuyingUpgrade(score);
-        autoSpawnMultiplier.CheckBuyingUpgrade(score);
+        if (autoSpawnButton.IsAutoSpawnActive())
+        {
+            autoSpawnMultiplier.CheckBuyingUpgrade(score);
+        }
     }
 
     internal void UpdateStatistics(int[] diceEyeCount)
@@ -47,9 +50,9 @@ public class UIController : MonoBehaviour
     public void ShowCombo(float comboScore)
     {
 //        Debug.Log("COMBO:  " + comboMultiplier);
-        string text = awesomeWords[Random.Range(0, awesomeWords.Length-1)]
-            + "\n"
-            + comboScore;
+        string text = awesomeWords[Random.Range(0, awesomeWords.Length - 1)]
+                      + "\n"
+                      + comboScore;
         Vector2 screenPos = new Vector2(Screen.width / 2, Screen.height / 2) +
                             Vector2.one * (UnityEngine.Random.insideUnitSphere * randomComboTextSpawn);
         floatTextSpawner.SpawnFloatingText(text, screenPos, 8);
