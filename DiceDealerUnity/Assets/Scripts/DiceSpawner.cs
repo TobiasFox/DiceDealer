@@ -36,7 +36,6 @@ public class DiceSpawner : MonoBehaviour
     private void Start()
     {
         spawnpoint = transform.GetChild(0);
-//        uiController = FindObjectOfType<UIController>();
         audioManager = FindObjectOfType<AudioManager>();
         gameScore = FindObjectOfType<GameScore>();
         LoadPlayerPrefs();
@@ -79,11 +78,6 @@ public class DiceSpawner : MonoBehaviour
     public void ActivateAutoSpawn()
     {
         isAutoSpawn = true;
-    }
-
-    public bool IsAutoSpawnActive()
-    {
-        return isAutoSpawn;
     }
 
     public void DeactivateAutoSpawn()

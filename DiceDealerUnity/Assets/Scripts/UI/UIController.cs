@@ -4,11 +4,11 @@ using UnityEngine;
 public class UIController : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI scoreText;
-
     [SerializeField] private AutoSpawnButton autoSpawnButton;
     [SerializeField] private AutoSpawnMultiplier autoSpawnMultiplier;
     [SerializeField] private GameObject statisticsPanel;
     [SerializeField] private string[] awesomeWords;
+    [SerializeField] private GameObject tutorialScreen;
 
     private FloatTextSpawner floatTextSpawner;
     private Camera camera;
@@ -23,11 +23,9 @@ public class UIController : MonoBehaviour
     public void UpdateScore(int score)
     {
         scoreText.text = score.ToString();
+
         autoSpawnButton.CheckBuyingUpgrade(score);
-        if (autoSpawnButton.IsAutoSpawnActive())
-        {
-            autoSpawnMultiplier.CheckBuyingUpgrade(score);
-        }
+        autoSpawnMultiplier.CheckBuyingUpgrade(score);
     }
 
     internal void UpdateStatistics(int[] diceEyeCount)
@@ -56,5 +54,10 @@ public class UIController : MonoBehaviour
         Vector2 screenPos = new Vector2(Screen.width / 2, Screen.height / 2) +
                             Vector2.one * (UnityEngine.Random.insideUnitSphere * randomComboTextSpawn);
         floatTextSpawner.SpawnFloatingText(text, screenPos, 8);
+    }
+
+    public void ShowTutorial()
+    {
+        tutorialScreen.SetActive(true);
     }
 }

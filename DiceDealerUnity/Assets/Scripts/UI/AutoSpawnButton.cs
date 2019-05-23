@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class AutoSpawnButton : MonoBehaviour
 {
     [SerializeField] private Upgrade upgrade;
+    [SerializeField] private GameObject tutorialScreen;
 
     private TextMeshProUGUI buttonPriceText;
     private Button button;
@@ -20,11 +21,15 @@ public class AutoSpawnButton : MonoBehaviour
         gameScore = FindObjectOfType<GameScore>();
         button = GetComponent<Button>();
         buttonPriceText = GetComponentInChildren<TextMeshProUGUI>();
-        
+
         upgradePrice = PlayerPrefs.GetInt(PlayerPrefsKey.AutoSpawnerPrice.ToString());
         if (upgradePrice <= 0)
         {
             upgradePrice = upgrade.price;
+        }
+        else
+        {
+            gameScore.tutorialModes[0] = TutorialMode.WAS_SHOWING;
         }
 
         UpdateButtonText();
@@ -40,6 +45,8 @@ public class AutoSpawnButton : MonoBehaviour
             upgradePrice += (int) (upgrade.priceMultiplier * upgradePrice);
             PlayerPrefs.SetInt(PlayerPrefsKey.AutoSpawnerPrice.ToString(), upgradePrice);
             UpdateButtonText();
+            tutorialScreen.SetActive(false);
+            gameScore.tutorialModes[0] = TutorialMode.WAS_SHOWING;
         }
     }
 
@@ -50,11 +57,20 @@ public class AutoSpawnButton : MonoBehaviour
 
     public void CheckBuyingUpgrade(int score)
     {
-        button.interactable = score >= upgradePrice;
-    }
+        var upgradeBuyable = score >= upgradePrice;
 
-    public bool IsAutoSpawnActive()
-    {
-        return diceSpawner.IsAutoSpawnActive();
+        if (gameScore.tutorialModes[0] == TutorialMode.HIDDEN)
+        {
+            if (upgradeBuyable)
+            {
+                tutorialScreen.SetActive(true);
+                gameScore.tutorialModes[0] = TutorialMode.SHOWING;
+            }
+
+            button.interactable = upgradeBuyable;
+            return;
+        }
+
+        button.interactable = upgradeBuyable && gameScore.tutorialModes[1] != TutorialMode.SHOWING;
     }
 }

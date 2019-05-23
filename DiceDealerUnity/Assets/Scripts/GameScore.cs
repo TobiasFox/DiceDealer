@@ -3,14 +3,14 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class GameScore : MonoBehaviour
 {
     private static bool isInitialized;
     private static GameObject INSTANCE;
 
-    [Tooltip("The maximum of eyes a dice can have to instantiate the eyes count array")]
-    [SerializeField]
+    [Tooltip("The maximum of eyes a dice can have to instantiate the eyes count array")] [SerializeField]
     private int maxDiceEyes = 6;
 
     [SerializeField] private Upgrade upgrade;
@@ -18,11 +18,13 @@ public class GameScore : MonoBehaviour
     [SerializeField] private float comboCollectWaitTime = 0.5f;
 
     private float comboCollectedTime;
-    private int gameScore = 0;
+    private int gameScore;
     private int[] diceEyeCount;
     private int[] activeDiceEyes;
     private UIController uiController;
-    private float comboScore = 0;
+    private float comboScore;
+    private float resetWaitTime = 0.3f;
+    public TutorialMode[] tutorialModes { get; } = new TutorialMode[2];
 
     private void Start()
     {
@@ -38,6 +40,11 @@ public class GameScore : MonoBehaviour
 
         gameScore = PlayerPrefs.GetInt(PlayerPrefsKey.GameScore.ToString(), 0);
         Debug.Log("loaded score: " + gameScore);
+        if (gameScore == 0)
+        {
+            uiController.ShowTutorial();
+        }
+
         uiController.UpdateScore(gameScore);
     }
 
@@ -48,7 +55,7 @@ public class GameScore : MonoBehaviour
             comboCollectedTime = Time.timeSinceLevelLoad;
 
             uiController.ShowCombo(comboScore);
-            gameScore += (int)comboScore;
+            gameScore += (int) comboScore;
 
             comboScore = 0;
         }
@@ -64,7 +71,6 @@ public class GameScore : MonoBehaviour
         uiController.UpdateScore(gameScore);
         uiController.UpdateStatistics(activeDiceEyes);
     }
-
 
     public void AddActiveDieEyes(int value, float time)
     {
@@ -93,6 +99,12 @@ public class GameScore : MonoBehaviour
 
     public void ResetScore()
     {
+        StartCoroutine(ResetGame());
+    }
+
+    private IEnumerator ResetGame()
+    {
+        yield return new WaitForSeconds(resetWaitTime);
         gameScore = 0;
         PlayerPrefs.DeleteAll();
         PlayerPrefs.Save();

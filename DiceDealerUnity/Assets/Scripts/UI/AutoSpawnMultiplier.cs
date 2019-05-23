@@ -10,6 +10,7 @@ public class AutoSpawnMultiplier : MonoBehaviour
     [SerializeField] private Upgrade upgrade;
     [SerializeField] private TextMeshProUGUI buttonPriceText;
     [SerializeField] private TextMeshProUGUI buttonDiceCountText;
+    [SerializeField] private GameObject tutorialScreen;
 
     private Button button;
     private bool isAutoSpawnActivated;
@@ -21,25 +22,33 @@ public class AutoSpawnMultiplier : MonoBehaviour
 
     private void Awake()
     {
+        diceSpawner = FindObjectOfType<DiceSpawner>();
+        gameScore = FindObjectOfType<GameScore>();
+        button = GetComponent<Button>();
+
         upgradePrice = PlayerPrefs.GetInt(PlayerPrefsKey.AutoSpawnMultiplierPrice.ToString());
         if (upgradePrice <= 0)
         {
             upgradePrice = upgrade.price;
         }
 
-        diceSpawner = FindObjectOfType<DiceSpawner>();
-        gameScore = FindObjectOfType<GameScore>();
-        button = GetComponent<Button>();
-        buttonDiceCountLabelText = buttonDiceCountText.text;
-    }
-
-    private void Start()
-    {
         if (PlayerPrefs.HasKey(PlayerPrefsKey.AutoSpawnCount.ToString()))
         {
             boughtUpgrades = PlayerPrefs.GetInt(PlayerPrefsKey.AutoSpawnCount.ToString());
         }
 
+        var buttonInteractable = boughtUpgrades > 1;
+        button.interactable = buttonInteractable;
+        if (buttonInteractable)
+        {
+            gameScore.tutorialModes[1] = TutorialMode.WAS_SHOWING;
+        }
+
+        buttonDiceCountLabelText = buttonDiceCountText.text;
+    }
+
+    private void Start()
+    {
         UpdateButtonText();
     }
 
@@ -59,11 +68,27 @@ public class AutoSpawnMultiplier : MonoBehaviour
             upgradePrice += (int) (upgradePrice * upgrade.priceMultiplier);
             PlayerPrefs.SetInt(PlayerPrefsKey.AutoSpawnMultiplierPrice.ToString(), upgradePrice);
             UpdateButtonText();
+            tutorialScreen.SetActive(false);
+            gameScore.tutorialModes[1] = TutorialMode.WAS_SHOWING;
         }
     }
 
     public void CheckBuyingUpgrade(int score)
     {
-        button.interactable = score >= upgradePrice;
+        if (gameScore.tutorialModes[0] != TutorialMode.WAS_SHOWING)
+        {
+            button.interactable = false;
+            return;
+        }
+
+        var UpgradeBuyable = score >= upgradePrice;
+
+        if (gameScore.tutorialModes[1] == TutorialMode.HIDDEN && UpgradeBuyable)
+        {
+            tutorialScreen.SetActive(true);
+            gameScore.tutorialModes[1] = TutorialMode.SHOWING;
+        }
+
+        button.interactable = UpgradeBuyable;
     }
 }

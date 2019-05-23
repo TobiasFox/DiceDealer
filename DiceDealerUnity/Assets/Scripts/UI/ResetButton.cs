@@ -13,7 +13,6 @@ public class ResetButton : MonoBehaviour
 
     public void ResetScore()
     {
-        
         gameScore.ResetScore();
     }
 }
