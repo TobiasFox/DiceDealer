@@ -1,6 +1,6 @@
 # Dice Dealer
 
-<img src="./screenshots/FunktionsgrafikDiceDealer.png" width="40%" style="display: block; margin-left: auto; margin-right: auto;">
+<img src="./screenshots/FunktionsgrafikDiceDealer.png" width="70%" style="display: block; margin-left: auto; margin-right: auto;">
 
 <table>
     <tr>
@@ -9,9 +9,9 @@
         <td>Increase your points by scoring with combi</td>
     </tr>
     <tr>
-        <td><img src="./screenshots/lowValue.png" width="50%"></td>
-        <td><img src="./screenshots/midValue.png" width="50%"></td>
-        <td><img src="./screenshots/highValue.PNG" width="50%"></td>
+        <td><img src="./screenshots/lowValue.png" width="75%"></td>
+        <td><img src="./screenshots/midValue.png" width="75%"></td>
+        <td><img src="./screenshots/highValue.PNG" width="75%"></td>
     </tr>
 </table>
 
