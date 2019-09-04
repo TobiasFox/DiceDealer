@@ -11,7 +11,7 @@
     <tr>
         <td><img src="./screenshots/lowValue.png" width="50%"></td>
         <td><img src="./screenshots/midValue.png" width="50%"></td>
-        <td><img src="./screenshots/highValue.png" width="50%"></td>
+        <td><img src="./screenshots/highValue.PNG" width="50%"></td>
     </tr>
 </table>
 
