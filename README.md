@@ -1,6 +1,6 @@
 # Dice Dealer
 
-<img src="./screenshots/FunktionsgrafikDiceDealer.png" width="70%" style="display: block; margin-left: auto; margin-right: auto;">
+<center><img src="./screenshots/FunktionsgrafikDiceDealer.png" width="70%"></center>
 
 <table>
     <tr>
